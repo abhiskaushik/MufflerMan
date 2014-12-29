@@ -1,0 +1,302 @@
+/*
+Level3..
+Way to Office..
+*/
+
+<!DOCTYPE html>
+<head>
+	<link rel="stylesheet" href="../style.css"></link>
+  <link href="../assets/bootstrap.css" rel="stylesheet">
+</head>
+<body>
+
+
+	<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=1488321171431950&version=v2.0";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+<canvas id="canvas"></canvas>
+<div id="over_msg">
+  <br><br><br>
+Game Over 
+<br><br><br><br><br>
+<button type="button" class="btn btn-primary" onclick="window.location.href=''">Play Again</button>
+<br><br><br><br><br>
+<div id="score_details"></div>
+<br><br><br>
+<div class="fb-share-button" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button"></div>
+
+<a href="https://twitter.com/intent/tweet?button_hashtag=Play4AAP&text=Vote%20for%20Kejriwal" class="twitter-hashtag-button" data-related="stndlkr200,stndlkr200">Tweet #Play4AAP</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+</div>
+<script type="text/javascript" src="../jquery.js"></script>
+<script type="text/javascript">
+
+
+//function level3 (){
+
+  //ctx.clearRect(0,0,w,h);
+//create jhaaduwala object...
+
+var gravity=2,
+    veloX=2;
+    key=[];
+    xp=50;
+    yp=300;
+    veloY=2;
+
+
+var canvas=document.getElementById('canvas'),
+    ctx=canvas.getContext('2d'),
+    w = window.innerWidth,
+    h = document.body.offsetHeight;
+
+    canvas.width=w;
+    canvas.height=h;
+
+    ctx.clearRect(0,0,w,h);
+
+
+
+document.addEventListener("keydown",function(e){
+   key[e.keyCode]=true;
+});
+
+document.addEventListener("keyup",function(e){
+   key[e.keyCode]=false;
+});    
+
+var setTimer3=setInterval(updateMufflerManPos,10);
+var time=0;
+var clock=setInterval(function(){
+ time++;
+ //ctx.clearRect(20,10,100,60);
+ ctx.font="20px bold cursive";
+ ctx.fillStyle="white";
+ ctx.fillText(time,25,15);
+ if(time>10){
+ 	ctx.clearRect(0,0,w,h);
+    clearInterval(clock);
+    clearInterval(setTimer3);
+   document.getElementById('over_msg').style.display="block";
+   document.getElementById('score_details').innerHTML="Your Score is "+ score;
+
+}
+},1000);
+
+
+function updateMufflerManPos(){
+
+  ctx.clearRect(0,0,w,h);
+  
+  ctx.beginPath();
+  ctx.lineWidth='5';
+  //for(var x=200;x<1200;x+=100){
+     ctx.moveTo(200,100);
+     ctx.lineTo(200,200);
+     ctx.moveTo(200,300);
+     ctx.lineTo(200,500);
+     
+     ctx.moveTo(300,100);
+     ctx.lineTo(300,160);
+     ctx.moveTo(300,250);
+     ctx.lineTo(300,500);
+
+     ctx.moveTo(500,100);
+     ctx.lineTo(500,210);
+     ctx.moveTo(500,290);
+     ctx.lineTo(500,500);
+     
+     ctx.moveTo(600,100);
+     ctx.lineTo(600,190);
+     ctx.moveTo(600,260);
+     ctx.lineTo(600,500);
+
+     ctx.moveTo(800,100);
+     ctx.lineTo(800,240);
+     ctx.moveTo(800,320);
+     ctx.lineTo(800,500);
+
+     ctx.moveTo(900,100);
+     ctx.lineTo(900,210);
+     ctx.moveTo(900,280);
+     ctx.lineTo(900,500);
+  
+     
+
+
+
+
+  //}
+  ctx.strokeStyle="white";
+  ctx.stroke();
+       
+       ctx.beginPath();
+     ctx.moveTo(1080,220);
+     
+     ctx.lineTo(1200,220);
+     ctx.strokeStyle="orange";
+     ctx.stroke();
+     
+     ctx.beginPath();
+     ctx.moveTo(1200,220);
+     ctx.lineTo(1200,340);
+     ctx.strokeStyle="white";
+     ctx.stroke();
+     
+     ctx.beginPath();
+     ctx.moveTo(1200,340);
+     ctx.lineTo(1080,340);
+     ctx.strokeStyle="lightgreen";
+     
+     ctx.stroke();
+
+     ctx.fillStyle="white";
+     ctx.fillText("Vidhan Sabha",1140,280);
+
+     ctx.beginPath();
+     ctx.moveTo(100,220);
+     
+     ctx.lineTo(10,220);
+     ctx.strokeStyle="orange";
+     ctx.stroke();
+     
+     ctx.beginPath();
+     ctx.moveTo(10,220);
+     ctx.lineTo(10,340);
+     ctx.strokeStyle="white";
+     ctx.stroke();
+     
+     ctx.beginPath();
+     ctx.moveTo(10,340);
+     ctx.lineTo(100,340);
+     ctx.strokeStyle="lightgreen";
+     
+     ctx.stroke();
+
+     ctx.fillStyle="white";
+     ctx.fillText("AAP Office",55,280);
+   
+
+ if(key[32]==true)
+  yp-=1;
+ else if(key[32]==false)
+  yp+=gravity;
+
+   
+
+  if(xp>=1200 ){
+    if(veloX<7)veloX++;
+    
+    veloX*=-1;
+    
+  }
+
+  if(xp<=10 ){
+    if(veloX>0)veloX--;
+    veloX*=-1;
+    
+  }
+  
+
+
+  if(xp>=200 && xp<=205 && yp<=200 && yp>=100){
+     veloX*=-1;
+     //ctx.fillStyle="red";
+     //ctx.fillText("Gone",600,500);
+  }
+  
+  if(xp>=200 && xp<=205 && yp<=500 && yp>=300){
+       veloX*=-1;
+       //ctx.fillStyle="red";
+     //ctx.fillText("Gone",600,500); 
+  }
+
+    if(xp>=300 && xp<=305 && yp<=160 && yp>=100){
+     veloX*=-1;
+
+  }
+  
+  if(xp>=300 && xp<=305 && yp<=500 && yp>=250){
+       veloX*=-1;
+
+  }
+  
+  if(xp>=500 && xp<=505 && yp<=210 && yp>=100){
+     veloX*=-1;
+
+  }
+  
+  if(xp>=500 && xp<=505 && yp<=500 && yp>=290){
+       veloX*=-1;
+
+  }
+ 
+   if(xp>=600 && xp<=605 && yp<=190 && yp>=100){
+     veloX*=-1;
+
+  }
+  
+  if(xp>=600 && xp<=605 && yp<=500 && yp>=260){
+       veloX*=-1;
+
+  }
+
+  if(xp>=800 && xp<=805 && yp<=240 && yp>=100){
+     veloX*=-1;
+
+  }
+  
+  if(xp>=800 && xp<=805 && yp<=500 && yp>=320){
+       veloX*=-1;
+
+  }
+ 
+  if(xp>=900 && xp<=905 && yp<=210 && yp>=100){
+     veloX*=-1;
+
+  }
+  
+  if(xp>=900 && xp<=905 && yp<=500 && yp>=280){
+       veloX*=-1;
+
+  }
+
+
+
+ctx.beginPath();
+ctx.arc(xp+=veloX,yp,7,0,2*Math.PI);
+ctx.fillStyle='white';
+ctx.fill();
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+//}
+
+
+
+</script>
+</body>
+</html>

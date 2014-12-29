@@ -1,0 +1,235 @@
+<!--
+Level 8...
+Game logic.
+given a 3x3 matrix.. 
+and numbers from 1 to 8..
+
+-->
+<!DOCTYPE html>
+<head>
+	<title>Level 8</title>
+	<link href="../assets/bootstrap.css" rel="stylesheet">
+	<style>
+	*{
+padding: 0px;
+margin: 0px;
+}
+
+body{
+background-color: #222222;
+}
+
+#canvas{
+background-color: #000000;
+//background-color:rgb(57,88,121);
+position: absolute;
+border: 5px red solid;
+border-radius: 20px;
+}
+
+#over_msg{
+   height: 100%;
+   width: 100%;
+   position: absolute;
+   left: 0%;
+   top:0%;
+   background-color: rgba(56,56,78,0.6);
+   text-align: center;
+   font-size: 100px;
+   color: rgba(145,56,78,1);
+   display: none;
+   z-index: 10;
+}
+
+
+	</style>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+ <div id="clock" style="position:absolute;right:3%;top:2%;font-weight:bold;color:white;">Clock</div>
+
+<div id="over_msg" >
+  <br><br><br>
+Game Over 
+<br><br><br><br><br>
+<button type="button" class="btn btn-primary" onclick="window.location.href=''">Play Again</button>
+<br><br><br><br><br>
+<div id="score_details"></div>
+<br><br><br>
+<!--<div class="fb-share-button" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button"></div>
+
+<a href="https://twitter.com/intent/tweet?button_hashtag=Play4AAP&text=Vote%20for%20Kejriwal" class="twitter-hashtag-button" data-related="stndlkr200,stndlkr200">Tweet #Play4AAP</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+-->
+</div>
+
+<script type="text/javascript" src="../jquery.js"></script>
+<script type="text/javascript">
+
+
+var canvas = document.getElementById("canvas"),
+    ctx = canvas.getContext("2d");
+var rat=0.9;
+canvas.style.left =	0.1*window.innerWidth;
+canvas.style.top =	0.1*window.innerHeight;
+canvas.width = rat*window.innerWidth;
+canvas.height = rat*window.innerHeight;
+
+var x = 350,
+    y = 350,
+    velY = 0,
+    velX = 0,
+    speed = 4, //max-speed
+    friction = 0.98,
+    keys = [],
+    W=rat*window.innerWidth,
+    H= rat*window.innerHeight,
+    evils=[],
+    time=1,
+    score=0;
+
+var timer=setInterval(function(){
+   document.getElementById('clock').innerHTML=time +' Secs';
+   time++;
+   score=time;
+},1000);
+
+
+var ball=new Image();
+  //ball.src='ball.png';
+
+var collision=new Audio('../level9/bad.wav');
+var safe=new Audio('safe.wav');
+
+for(var i = 0; i < 4; i++)
+{
+evils.push(new evil());
+}
+
+function evil(){
+
+	this.xt =Math.floor(Math.random()*W/5);
+	this.yt = Math.floor(Math.random()*H/5);
+	this.vx =Math.floor( Math.random()*8-3);
+	this.vy =Math.floor( Math.random()*8-3);
+	this.r=Math.random()*255>>0; this.g=Math.random()*255>>0; this.b=Math.random()*255>>0;
+	this.radiust = Math.random()*20+20;
+}
+
+
+
+
+
+
+function update() {
+
+  
+    if (keys[38]) {
+        if (velY > -speed) {
+            velY--;
+        }
+    }
+    if (keys[40]) {
+        if (velY < speed) {
+            velY++;
+        }
+    }
+    if (keys[39]) {
+        if (velX < speed) {
+            velX++;
+        }
+    }
+    if (keys[37]) {
+        if (velX > -speed) {
+            velX--;
+        }
+    }
+
+    velY *= friction;
+    y += velY;
+
+    velX *= friction;
+    x += velX;
+	
+    if (x >= (canvas.width-5)) {
+        x = 5;
+    } else if (x <= 5) {
+        x = (canvas.width-5);
+    }
+
+    if (y >= (canvas.height-5)) {
+        y = 5;
+    } else if (y <= 5) {
+        y = (canvas.height-5);
+    }
+	
+	ctx.fillStyle="rgba(0,0,0,0.3)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+   
+   //ball.onload=function(){
+	//	 	ctx.drawImage(ball,x,y);
+	//	 }
+	//	 ball.src='ball.png';
+     ctx.beginPath();
+     ctx.arc(x, y, 15, 0, Math.PI * 2);
+     ctx.fillStyle="white";
+	 ctx.fill();
+
+    //move evils..
+     //motion of evils....
+    for(var t = 0; t < evils.length; t++)
+	{ 
+       var p = evils[t];
+        ctx.beginPath();
+        ctx.fillStyle="rgba("+p.r+","+p.g+","+p.b+",0.6)";
+		ctx.arc(p.xt, p.yt, p.radiust, Math.PI*2, false);
+
+		ctx.fill();
+		
+
+		p.xt =p.xt+ 2*p.vx;
+		p.yt += p.vy;
+
+		if(p.xt < -50) p.xt = W+50;
+		if(p.yt < -50) p.yt = H+50;
+		if(p.xt > W+50) p.xt = -50;
+		if(p.yt > H+50) p.yt = -50;
+      
+     //check collision of evils with hero...
+         if(Math.abs(p.xt-x)<p.radiust+15 && Math.abs(p.yt-y)<p.radiust+15){
+         	console.log('collioded');//alert('game over');
+         	collision.play();
+            document.getElementById('over_msg').style.display='block';
+            document.getElementById('score_details').innerHTML='Your Score is '+score;
+            clearInterval(gameloop);
+            clearInterval(timer);
+
+           }
+
+	}
+
+
+
+
+
+    //setTimeout(update, 10);
+}
+
+var gameloop=setInterval(update,10);
+
+document.addEventListener("keydown", function (e) {
+    keys[e.keyCode] = true;
+    safe.play();
+});
+document.addEventListener("keyup", function (e) {
+    keys[e.keyCode] = false;
+});
+
+
+</script>
+<!--<link href="../assets/bootstrap.css" rel="stylesheet">-->
+</body>
+</html>
+
+
+

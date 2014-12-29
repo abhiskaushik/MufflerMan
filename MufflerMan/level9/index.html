@@ -1,0 +1,244 @@
+<!--
+Level 9..
+
+Arrange 0 to 9 in alphabetical order..
+-->
+
+<!DOCTYPE html>
+<head>
+<link rel="stylesheet" href="../style.css"></link>
+<link href="../assets/bootstrap.css" rel="stylesheet">
+<script type="text/javascript" src="../jquery.js"></script>
+<style type="text/css">
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    display: table;
+}
+.tiles{
+	height: 100px;
+	width: 100px;
+	position: absolute;
+	top: 30%;
+	background: red;
+	color: black;
+	font-size: 30px;
+	font-weight: bold;
+	font-variant: small-caps;
+	font-family: Georgia;
+	text-align: center;
+	
+	//vertical-align:middle;
+	//display:table-cell; 
+
+}
+
+#instructions{
+	font-weight: bold;
+	font-family: Georgia;
+	font-variant: small-caps;
+	color:white;
+	font-size: 20px;
+	position: absolute;
+	top:60%;
+	left:35%; 
+}
+#wrongkey{
+	font-weight: bold;
+	font-family: Georgia;
+	font-variant: small-caps;
+	color:white;
+	font-size: 20px;
+	position: absolute;
+	top:20%;
+	left:38%; 
+	display: none;
+}
+
+#clock{
+	font-weight: bold;
+	font-family: Georgia;
+	font-variant: small-caps;
+	color:white;
+	font-size: 20px;
+	position: absolute;
+	top:80%;
+	left:45%; 
+}
+
+#tick{
+
+	position: absolute;
+	top:1%;
+	left:45%;
+	display: none; 
+}
+
+
+#nine{
+	
+	left:91%;
+}
+#eight{
+	
+	left:81%;
+}
+#seven{
+	
+	left:71%;
+}
+#six{
+	
+	left:61%;
+}
+#five{
+	
+	left:51%;
+}
+#four{
+	
+	left:41%;
+}
+#three{
+	
+	left:31%;
+}
+#two{
+	
+	left:21%;
+}
+#one{
+	
+	left:11%;
+}
+#zero{
+	left:1%;
+}
+
+
+</style>
+
+
+
+
+</head>
+<body style="background:black">
+	<div class="tiles" id='one'>1</div>
+	<div class="tiles" id='two'>2</div>
+	<div class="tiles" id='three'>3</div>
+	<div class="tiles" id='four'>4</div>
+	<div class="tiles" id='five'>5</div>
+	<div class="tiles" id='six'>6</div>
+	<div class="tiles" id='seven'>7</div>
+	<div class="tiles" id='eight'>8</div>
+	<div class="tiles" id='nine'>9</div>
+	<div class="tiles" id='zero'>0</div>
+
+<div id="instructions">Press number keys in alphabetical order</div>
+<div id="wrongkey">Bad Key,Press only Numbers</div>
+<div id="clock">Clock</div>
+<img src="tick.png" id="tick" height="100" width="200"></img>
+
+
+
+
+<div id="fb-root"></div>
+	<!--
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&appId=1488321171431950&version=v2.0";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+-->
+
+
+
+
+<div id="over_msg">
+  <br><br><br>
+Game Over 
+<br><br><br><br><br>
+<button type="button" class="btn btn-primary" onclick="window.location.href=''">Play Again</button>
+<br><br><br><br><br>
+<div id="score_details"></div>
+<br><br><br>
+<!--<div class="fb-share-button" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button"></div>
+
+<a href="https://twitter.com/intent/tweet?button_hashtag=Play4AAP&text=Vote%20for%20Kejriwal" class="twitter-hashtag-button" data-related="stndlkr200,stndlkr200">Tweet #Play4AAP</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+-->
+</div>
+
+<script type="text/javascript">
+var tiles=['zero','one','two','three','four','five','six','seven','eight','nine'];
+var ctr=0;
+var good = new Audio("sfx.wav");
+var bad = new Audio("bad.wav");
+var time=0,score=0;
+var timer=setInterval(function(){
+   document.getElementById('clock').innerHTML=time +' Secs';
+   time++;
+   score=time;
+},1000);
+
+var d=[];
+/*
+for(z=0;z<10;z++){
+	d.push(document.getElementById(tiles[z]).innerHTML);
+}
+*/
+var check=setInterval(function(){
+  var t0=document.getElementById('zero').innerHTML;
+  var t1=document.getElementById('one').innerHTML;
+  var t2=document.getElementById('two').innerHTML;
+  var t3=document.getElementById('three').innerHTML;
+  var t4=document.getElementById('four').innerHTML;
+  var t5=document.getElementById('five').innerHTML;
+  var t6=document.getElementById('six').innerHTML;
+  var t7=document.getElementById('seven').innerHTML;
+  var t8=document.getElementById('eight').innerHTML;
+  var t9=document.getElementById('nine').innerHTML;
+
+  if(t0==8 && t1==5 && t2==4 && t3==9 && t4==1 && t5==7 && t6==6 && t7==3 && t8==2 && t9==0){
+    document.getElementById('tick').style.display="block";
+     $("#over_msg").fadeIn(3000);
+     clearInterval(check);
+     clearInterval(timer);
+     document.getElementById('score_details').innerHTML="Your Score is "+ score;
+   }
+
+},10);
+
+
+
+window.onkeypress=function(e){
+  if ((e.keyCode >= 48 && e.keyCode <= 57)){
+      
+  	good.play();
+   document.getElementById(tiles[ctr]).innerHTML=String.fromCharCode(e.which);
+   ctr++;
+
+   if(ctr>9)
+   	ctr=0;
+
+  
+  }
+
+  else{
+	bad.play();
+  $('#wrongkey').fadeIn().delay(1000).fadeOut();
+
+}
+}
+
+
+
+
+</script>
+</body>
+</html>
+

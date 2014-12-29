@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>Delta Animation</title>
+        <style type="text/css">
+            .animation
+            {
+                position: absolute;
+                height:40%;
+                width:30%;
+                top: 25%;
+                left:35%;
+            }
+        </style>
+        <script type="text/javascript">
+            window.addEventListener("load", animationSequence, true);
+            var color="#000000";
+            var bgcolor="#ffffff";
+            function animationSequence()
+            {
+                drawBackground();
+                drawText(1);
+                coverAnimation(drawText);
+                
+            }
+                
+                
+            
+            function drawBackground()
+            {
+                var canvas=document.getElementById("animationBackground");
+                canvas.height=0.4*window.innerHeight;
+                canvas.width=0.3*window.innerWidth;
+
+                console.log(canvas.height +":"+canvas.width );
+                var h=canvas.clientHeight;
+                var w=canvas.clientWidth;
+                console.log(w+":"+h);
+                var context=canvas.getContext("2d");
+                context.fillStyle=color;
+                var x,y;
+                
+                context.beginPath();
+                //Black Triangle
+                x=Math.floor(0.5*w);                    y=Math.floor(0.2*h);//                    console.log(x+":"+y);
+                context.moveTo(x,y);
+                x=Math.floor(0.8*w);                    y=Math.floor(0.8*h);//                    console.log(x+":"+y);
+                context.lineTo(x,y);
+                x=Math.floor(0.2*w);                    y=Math.floor(0.8*h);//                    console.log(x+":"+y);
+                context.lineTo(x,y);
+                x=Math.floor(0.5*w);                    y=Math.floor(0.2*h);//                    console.log(x+":"+y);
+                context.lineTo(x,y);
+                context.fill();
+                context.closePath();
+                context.fillStyle=bgcolor;
+                context.beginPath();
+                //Whitetriangle
+                x=Math.floor(0.5*w);                    y=Math.floor(0.37*h);//                    console.log(x+":"+y);
+                context.moveTo(x,y);
+                x=Math.floor(0.67*w);                    y=Math.floor(0.71*h);//                    console.log(x+":"+y);
+                context.lineTo(x,y);
+                x=Math.floor(0.34*w);                    y=Math.floor(0.71*h);//                    console.log(x+":"+y);
+                context.lineTo(x,y);
+                x=Math.floor(0.5*w);                    y=Math.floor(0.37*h);//                    console.log(x+":"+y);
+                context.lineTo(x,y);
+                context.fill();
+                context.closePath();
+
+            }
+           
+            function coverAnimation(callback)
+            {
+                var canvas=document.getElementById("animation");
+                canvas.height=0.4*window.innerHeight;
+                canvas.width=0.3*window.innerWidth;
+                console.log(canvas.height +":"+canvas.width );
+                var h=canvas.clientHeight;
+                var w=canvas.clientWidth;
+                console.log(w+":"+h);
+                var context=canvas.getContext("2d");
+                function cover(openangle)
+                {
+                    var x=Math.floor(0.5*w);
+                    var y=Math.floor(0.7*h);
+                    var r1=Math.sqrt((0.5*h)*(0.5*h));
+                    var r2=Math.sqrt((0.3*w)*(0.3*w)+(0.1*h)*(0.1*h));
+                    if (r1>r2)r=r1;else r=r2;
+                    var startAngle=(Math.PI/180)*(169)+openangle;
+                    var endAngle=(Math.PI/180)*168.999;
+                    console.log(x+":"+y+":" +r+":"+startAngle+":"+endAngle);
+                    context.fillStyle=bgcolor;
+                    context.strokeStyle = bgcolor;
+                    context.lineWidth=6;
+                    context.beginPath();
+                    context.moveTo(x,y);
+                    var startPointy=Math.floor(0.7*h+r*Math.sin(startAngle));
+                    var startPointx=Math.floor(0.5*w+r*Math.cos(startAngle));
+                    context.lineTo(startPointx,startPointy);
+                    context.arc(x,y,r,startAngle,endAngle,false);
+                    context.lineTo(x,y);
+                    context.fill();
+                    context.closePath();
+                }
+                var openangle=0;
+                function animation()
+                {
+                   
+                    if ((((Math.PI/180)*(169)+openangle)-((Math.PI/180)*168.99))>4*Math.PI)
+                    {
+                        window.setTimeout(function(){context.clearRect(0,0,w,h)},1);
+                        callback(2);
+                        callback(3);
+                        return;
+                    }
+                    context.clearRect(0,0,w,h);
+                    window.setTimeout(animation,1);
+                    openangle+=0.01;
+                    cover(openangle);
+                }
+                animation();
+            }
+            var drawText=function(a)
+            {
+                var canvas=document.getElementById("animationText");
+                canvas.height=0.4*window.innerHeight;
+                canvas.width=0.3*window.innerWidth;
+                var h=canvas.clientHeight;
+                var w=canvas.clientWidth;
+                console.log(w+":"+h);
+                var context=canvas.getContext("2d");
+                context.fillStyle=color;
+                var x,y;
+                //Write Loading
+                context.textBaseline="top";
+                var writeLoading = function()
+                {
+                    context.font = "normal bold "+0.11*h+"px sans-serif";
+                    var text="LOADING...";
+                    var metrics = context.measureText(text);
+                    var textWidth = metrics.width;
+                    var x=Math.floor((w-textWidth)/2);
+                    var y=0.05*h;
+                    context.fillText(text,x,y);
+                }
+                var clearLoading=function()
+                {
+                    context.clearRect(0,0.05*h,w,0.11*h);
+                }
+                var i=0;
+                var writeDelta= function()
+                {
+                    var text="DELTA Loaded";
+                    context.font = "normal bold "+0.12*h+"px sans-serif";
+                    var metrics = context.measureText(text.substring(0,i));
+                    var textWidth = metrics.width;
+                    var x=Math.floor((w-textWidth)/2);
+                    var y=Math.floor(0.85*h);
+                    context.clearRect(0,y,w,0.12*h);
+                    context.fillText(text.substring(0,i+1),x-0.03*w,y);
+                    i++;
+                    if (i<=(text.length-1))
+                    {
+                        setTimeout(writeDelta,225);
+                    }
+                }
+                if (a==1){
+                    writeLoading();
+                }
+                else if (a==2){
+                    clearLoading();
+                }
+                else if (a==3){
+                    writeDelta();
+                }
+                else {
+                    return 0;
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <canvas id="animationBackground" class="animation"></canvas>
+        <canvas id="animation" class="animation"></canvas>
+        <canvas id="animationText" class="animation"></canvas>
+    </body>
+</html>

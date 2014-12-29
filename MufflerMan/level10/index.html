@@ -1,0 +1,227 @@
+<!--
+Level 10..
+Collect for AAP..
+MM has to collect AAP terms
+and escape from bjp terms..
+if he touches bjp terms he dies.
+if he touches aap terms he gains life.
+
+-->
+
+<html>
+<head>
+<title>Level 10</title>
+</head>
+
+<style>
+
+*{
+padding: 0px;
+margin: 0px;
+}
+
+body{
+background-color: #222222;
+}
+
+#canvas{
+background-color: #000000;
+position: absolute;
+border: 5px red solid;
+border-radius: 20px;
+}
+
+</style>
+
+<body>
+
+<canvas id="canvas"></canvas>
+
+<script type="text/javascript">
+
+
+var canvas = document.getElementById("canvas"),
+    ctx = canvas.getContext("2d");
+
+canvas.style.left =	0.1*window.innerWidth;
+canvas.style.top =	0.1*window.innerHeight;
+canvas.width = 0.8*window.innerWidth;
+canvas.height = 0.8*window.innerHeight;
+
+var x = 150,
+    y = 150,
+    velY = 0,
+    velX = 0,
+    speed = 5, //max-speed
+    friction = 0.98,
+    keys = [];
+    W=0.8*window.innerWidth,
+    H=0.8*window.innerHeight;
+
+var mm=new Image();
+var patt=new Image();
+
+var good=new Audio('../level9/sfx.wav');
+var bad=new Audio('../level9/bad.wav');
+
+var aaps=[];
+var bjps=[];
+var aapwords=['Jan Lokpal','Delhi Dialogue','RTI','Anti Corruption'];
+var bjpwords=['Dharm Lokpal','Gali Dialogue','RTH','Corruption'];
+function aap(msg){
+    this.xt =Math.floor(Math.random()*1000+1);
+	this.yt =Math.floor(Math.random()*(-20) -1);
+	this.vx =0;
+	this.vy =Math.floor( Math.random()*5+1);
+	this.r=Math.random()*255>>0; this.g=Math.random()*255>>0; this.b=Math.random()*255>>0;
+	this.ht=40;
+	this.wt=40;
+	this.msg=msg;
+}
+
+function bjp(msg){
+    this.xt =Math.floor(Math.random()*1000+1);
+	this.yt =Math.floor(Math.random()*(-20) -1);
+	this.vx =0;
+	this.vy =Math.floor( Math.random()*5+1);
+	this.r=Math.random()*255>>0; this.g=Math.random()*255>>0; this.b=Math.random()*255>>0;
+	this.ht=40;
+	this.wt=60;
+	this.msg=msg;
+}
+
+for(var k=0;k<4;k++){
+	aaps.push(new aap(aapwords[k]));
+	bjps.push(new bjp(bjpwords[k]));
+}
+
+
+
+function update() {
+
+    if (keys[39]) {
+        if (velX < speed) {
+            velX++;
+        }
+    }
+    if (keys[37]) {
+        if (velX > -speed) {
+            velX--;
+        }
+    }
+
+    velX *= friction;
+    x += velX;
+	
+    if (x >= (canvas.width-5)) {
+        x = 5;
+    } else if (x <= 5) {
+        x = (canvas.width-5);
+    }
+	
+	//ctx.fillStyle="rgba(0,0,0,0.3)";
+	patt.onload=function(){
+      var pattern = ctx.createPattern(patt, 'repeat');
+	   ctx.fillStyle=pattern;
+       ctx.fillRect(0, 0, canvas.width, canvas.height);
+	}
+	patt.src='back.png';
+	
+   
+	mm.onload=function(){
+		ctx.drawImage(mm,x,391,100,100);
+      }
+      mm.src="mm1.png";
+
+    
+   for(var _t=0;_t<aaps.length;_t++){
+     
+        var p = aaps[_t];
+           
+        
+      
+        ctx.beginPath();
+        ctx.fillStyle="rgba("+p.r+","+p.g+","+p.b+",0.6)";
+        ctx.fillRect(p.xt,p.yt,p.msg.length*15,p.ht);
+        ctx.font='20px bold Geogrgia';
+        ctx.textAlign='center';
+        ctx.fillStyle='white';
+        ctx.fillText(p.msg,p.xt+(p.msg.length*15/2),p.yt+25);
+		ctx.fill();
+		
+
+	
+		p.yt += p.vy/5;
+
+		if(p.xt < -50) p.xt = W+50;
+		if(p.yt < -50) p.yt = H+50;
+		if(p.xt > W+50) p.xt = -50;
+		if(p.yt > H+50) p.yt = -50;
+      
+     //check collision of evils with hero...
+
+       if (x < p.xt + p.msg.length*15 && x + 100 > p.xt && 391 < p.yt + p.ht && 391 + 100 > p.yt){
+       	 console.log('collioded');
+          good.play();
+       	}
+    
+
+   }
+
+
+      for(var _tt=0;_tt<bjps.length;_tt++){
+     
+        var pt = bjps[_tt];
+         
+        ctx.beginPath();
+        ctx.fillStyle="rgba("+pt.r+","+pt.g+","+pt.b+",0.6)";
+        ctx.fillRect(pt.xt,pt.yt,pt.msg.length*15,pt.ht);
+        ctx.font='20px bold Geogrgia';
+        ctx.textAlign='center';
+        ctx.fillStyle='red';
+        ctx.fillText(pt.msg,pt.xt+(pt.msg.length*15/2),pt.yt+25);
+		ctx.fill();
+		
+
+
+		pt.yt += pt.vy;
+
+		if(pt.xt < -50) pt.xt = W+50;
+		if(pt.yt < -50) pt.yt = H+50;
+		if(pt.xt > W+50) pt.xt = -50;
+		if(pt.yt > H+50) pt.yt = -50;
+      
+     //check collision of evils with hero...
+       
+     if (x < pt.xt + pt.msg.length*15 && x + 100 > pt.xt && 391 < pt.yt + pt.ht && 391 + 100 > pt.yt){
+       	 console.log('collioded');
+          bad.play();
+       	}
+
+   }
+
+
+
+
+
+  requestAnimationFrame(update);
+}
+
+update();
+
+document.addEventListener("keydown", function (e) {
+    keys[e.keyCode] = true;
+});
+document.addEventListener("keyup", function (e) {
+    keys[e.keyCode] = false;
+});
+
+
+
+
+
+
+
+</script>
+</body>
+</html>

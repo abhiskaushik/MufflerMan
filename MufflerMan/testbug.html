@@ -1,0 +1,511 @@
+
+<html>
+<head>
+
+	<style>
+	        *{
+           
+            background-color: black;
+
+        }
+
+      canvas{display: block;}
+	</style>
+
+<body>
+<canvas id="canvas"></canvas>
+
+<script type="text/javascript">
+
+window.onload=function() {
+
+
+	var canvas=document.getElementById('canvas');
+	var ctx=canvas.getContext('2d');
+
+	var w=window.innerWidth;
+      canvas.width=w;
+	var h=window.innerHeight;
+      canvas.height=h;
+  
+    var ctr=0;
+   
+    var words=["We Need Swaraj","Play for Change","Aam Aadmi Party","5 saal Kejriwal","AAP for Change","Vote for Good","Arvind Kejriwal","Kejriwal Fir Se","We Need Swaraj","Play for Change","Aam Aadmi Party","5 saal Kejriwal","AAP for Change","Vote for Good","Arvind Kejriwal","Kejriwal Fir Se","We Need Swaraj","Play for Change","Aam Aadmi Party","5 saal Kejriwal","AAP for Change","Vote for Good","Arvind Kejriwal","Kejriwal Fir Se","We Need Swaraj","Play for Change","Aam Aadmi Party","5 saal Kejriwal","AAP for Change","Vote for Good","Arvind Kejriwal","Kejriwal Fir Se"];
+
+    var j=0;
+
+
+ function box(x,y){
+  this.x=x;
+  this.y=y;
+  this.xVelo=10+Math.random()*20;
+  this.yVelo=1;
+  this.width=500;
+  this.height=500;
+
+  this.r=Math.round(Math.random()*255);
+  this.g=Math.round(Math.random()*255);
+  this.b=Math.round(Math.random()*255);
+ this.rgba = "rgba("+this.r+","+this.g+","+this.b+",1)";
+ this.message=words[i];
+   i++;
+
+   
+this.draw = function()
+        {
+
+
+          ctx.strokeStyle = this.rgba;
+          ctx.strokeRect(this.x,this.y,this.width,this.height);
+          
+          ctx.font = 'bold 50px Calibri';
+          ctx.textAlign = 'center';
+          ctx.textBaseline='middle';
+          ctx.fillStyle =this.rgba;  
+          ctx.fillText(this.message, this.x+this.width/2, this.y+this.height/2); 
+
+
+           ctr++;
+           if(ctr>7000){
+            clearInterval(timer1);
+
+          ctx.font = 'bold 50px Calibri';
+          ctx.textAlign = 'center';
+          ctx.textBaseline='middle';
+          ctx.fillStyle ="white";  
+          ctx.fillText("Vote For Honest Leaders", 400, 400);
+          ctx.fillText("Vote For Kejriwal", 600, 30);
+          ctx.fillText("Vote For Delhi", 1000, 400); 
+          ctx.strokeStyle="rgba(200,56,78,0.4)";
+          ctx.strokeRect(550,200,100,60);
+          ctx.font = 'bold 20px Calibri';
+          ctx.textAlign = 'center';
+          ctx.textBaseline='middle';
+          ctx.fillStyle ="green";  
+          ctx.fillText("Lets Play !", 600, 230);
+
+
+}
+          this.update();
+
+        }
+        
+        
+        this.update = function()
+        {
+              if(this.x < 0) {
+            this.x = 0;     
+            this.xVelo *= -1;          
+             }
+          
+
+          if(this.x > w - this.width)
+          {
+              this.x = w - this.width;    
+              this.xVelo *= -5; 
+          }
+          
+
+          if(this.y < 0) {
+            this.y = 0;     
+            this.yVelo *= -1; 
+          }
+          
+          
+          if(this.y < h - this.height) 
+            this.yVelo += .25;
+          
+          
+          if(this.y > h - this.height)
+          {
+          
+              //this.xVelo *= .5
+              this.yVelo *= .5
+              
+              this.y = h - this.height;     
+              this.yVelo *= -2; 
+          }
+
+
+          this.x += this.xVelo/5;
+          this.y += this.yVelo/3;
+        }
+      }
+      
+
+      var boxes = [];
+      
+      
+      function draw()
+      {
+      
+        ctx.globalCompositeOperation = "source-over";
+        ctx.fillStyle = "rgba(0,0,0,0.5)"
+        ctx.fillRect(0,0,w,h);
+        
+        ctx.globalCompositeOperation = "lighter"
+        
+       
+        for(i=0; i < boxes.length; i++)
+          boxes[i].draw();
+        
+        update();
+      }
+      
+      
+      function update()
+      {
+      
+        for(i=0; i < boxes.length; i++)
+          boxes[i].update();
+      }
+      
+      
+     var timer1= setInterval(function(){
+        boxes.push( new box(0,0))
+      },1000);
+      
+      
+    var timer= setInterval(draw,30);
+
+
+   canvas.addEventListener("click",play_function);
+   function play_function(e){
+    button_x=e.pageX;
+    button_y=e.pageY;
+    if(button_x<650 && button_x>500 && button_y<260 && button_y >200)
+      start_levels(); 
+
+}
+
+function start_levels(){
+  clearInterval(timer);
+ canvas.removeEventListener('click',play_function);
+  level1();
+}
+
+var level1=function(){
+
+          ctx.clearRect(0,0,w,h);
+          ctx.font = '13px Arial';
+          ctx.textAlign = 'center';
+          ctx.textBaseline='middle';
+          ctx.fillStyle ="white";  
+          ctx.fillText("MufflerMan wants you to sketch something.. Please do",500,10);
+
+
+
+
+  var dots=[];
+
+
+var dotXval=["500","250","150","720","850"];
+var dotYval=["100","250","300","250","300"];
+
+
+function dot(xcod,ycod,radius,value){
+   this.xcod=xcod;
+   this.ycod=ycod;
+   this.radius=radius;
+   this.val=value;
+}
+
+function create_dots(x,y,radius,value){
+
+  ctx.beginPath();
+  ctx.arc(x,y,radius,0,2*Math.PI,true);
+  ctx.fillStyle="white";
+  ctx.fill();
+  //adding numbers..
+  ctx.font = '10px Arial';
+  ctx.textAlign = 'center';
+  ctx.textBaseline='middle';
+  ctx.fillStyle ="white";  
+  ctx.fillText(value,x-10,y-10);
+
+}
+
+
+function  startLevel(){
+
+  var dotRadius=10;
+  var dotsCount=5;
+  
+  for (var i = 0; i <dotsCount; i++){
+ 
+    dots.push(new dot(dotXval[i],dotYval[i],dotRadius,i+1));
+
+  }
+    
+  for (var j=0; j<dots.length; j++) { 
+   create_dots(dots[j].xcod, dots[j].ycod,5,dots[j].val);
+
+  }
+
+
+}
+
+startLevel();
+
+var mouse={x:0,y:0};
+
+
+var drag4sketch=function(e){
+ 
+ mouse.x=e.pageX-this.offsetLeft;
+ mouse.y=e.pageY-this.offsetTop;
+
+
+}
+
+
+canvas.addEventListener('mousemove',drag4sketch);
+
+
+
+ctx.lineWidth = 6;
+ctx.lineJoin = 'round';
+ctx.lineCap = 'round';
+ctx.strokeStyle = 'blue';
+
+canvas.addEventListener('mousedown',function(e){
+ctx.beginPath();
+ctx.moveTo(mouse.x,mouse.y);
+
+canvas.addEventListener('mousemove',sketch,false);
+
+},false);
+
+ 
+canvas.addEventListener('mouseup',function(){
+ 
+canvas.removeEventListener('mousemove',sketch,false);
+
+},false);
+
+
+
+var sketch=function(){
+
+ctx.lineTo(mouse.x,mouse.y);
+ctx.stroke();
+}
+
+var time=0;
+
+var clock=function(){
+   ctx.clearRect(1000,20,1200,200);
+   ctx.font = '20px Arial';
+   ctx.fillStyle ="white";  
+   ctx.fillText(time++ + ' sec',1120,30);
+  
+  if(time>2){
+    clearInterval(setClock);
+    ctx.clearRect(0,0,w,h);
+
+
+    canvas.removeEventListener('mousemove',sketch);
+    canvas.removeEventListener('mouseup',level1);
+    canvas.removeEventListener('mousedown',level1); 
+    canvas.removeEventListener('mousemove',level1);
+    canvas.removeEventListener('mouseup',sketch);
+    canvas.removeEventListener('mousedown',sketch); 
+    canvas.removeEventListener('mousemove',sketch);
+    canvas.removeEventListener('mousemove',drag4sketch);  
+     
+     level2();
+
+
+} 
+
+}
+
+var setClock=setInterval(clock,1000);
+
+//clearInterval(setClock);
+
+}
+
+
+function level2(){
+//clearInterval(setClock);
+var m={x:0,y:0};
+
+var rect_cordsX=["100","300","500","700","900","1100"];
+var rect_cordsY=["50","160","370","480"];
+var hints=["Trader","Businessman","Student","Teacher","Writer","Scientist","Politicion","MufflerMan","Auto Driver","Police","Doctor","Industrialist","Soldier","Musician","Cobbler","Social Worker","MufflerMan","Engineer","Advocate","Reporter","Editor","MufflerMan","Poet","Actor"];
+
+          ctx.font = 'bold 13px Arial';
+          ctx.textAlign = 'center';
+          ctx.textBaseline='middle';
+          ctx.fillStyle ="white";  
+          ctx.fillText("MufflerMan wants you to find his companions..Your Luck! ",620,10);
+
+var hint_cards=[];
+
+ var hint_card=function(x,y,hint){
+     this.x=x;
+     this.y=y;
+     this.hint=hint;
+
+ }
+
+
+  for (var i = 0; i< rect_cordsX.length; i++) {
+     
+      for (var j=0;j<rect_cordsY.length;j++){
+        hint_cards.push(new hint_card(rect_cordsX[i],rect_cordsY[j],hints[i*j]));          
+
+      }
+   } 
+
+
+      for (var k=0;k<hint_cards.length;k++){
+        
+          ctx.strokeStyle="white";
+          ctx.strokeRect(hint_cards[k].x,hint_cards[k].y,100,80);
+          
+          ctx.font = 'bold 15px Calibri';
+          ctx.textAlign="center";
+          ctx.textBaseline="middle";
+          ctx.fillStyle="white";
+          ctx.fillText(hints[k],parseInt(hint_cards[k].x)+50,parseInt(hint_cards[k].y)+40);  
+   } 
+
+function click_hint_card(e){
+
+  m.x=e.pageX-this.offsetLeft;
+  m.y=e.pageY-this.offsetTop;
+  
+
+
+  if(m.x>100 && m.y>50 && m.x<200 && m.y<130){
+
+     console.log("Trader");
+     level3();
+
+  }
+  
+  else if(m.x>300 && m.y>50 && m.x<400 && m.y<130)
+    console.log('2');
+  
+  else if(m.x>500 && m.y>50 && m.x<600 && m.y<130)
+    console.log('3');
+  
+  else if(m.x>700 && m.y>50 && m.x<800 && m.y<130)
+    console.log('4');
+  
+  else if(m.x>900 && m.y>50 && m.x<1000 && m.y<130)
+    console.log('5');
+  
+  else if(m.x>1100 && m.y>50 && m.x<1200 && m.y<130)
+    console.log('6');
+  
+  else if(m.x>100 && m.y>160 && m.x<200 && m.y<240)
+    console.log('7');
+  
+  else if(m.x>300 && m.y>160 && m.x<400 && m.y<240)
+    console.log('8');
+  
+  else if(m.x>500 && m.y>160 && m.x<600 && m.y<240)
+    console.log('9');
+  
+  else if(m.x>700 && m.y>160 && m.x<800 && m.y<240)
+    console.log('10');
+  
+  else if(m.x>900 && m.y>160 && m.x<1000 && m.y<240)
+    console.log('11');
+  
+  else if(m.x>1100 && m.y>160 && m.x<1200 && m.y<240)
+    console.log('12');
+  
+  else if(m.x>100 && m.y>370 && m.x<200 && m.y<450)
+    console.log('13');
+  
+  else if(m.x>300 && m.y>370 && m.x<400 && m.y<450)
+    console.log('14');
+  
+  else if(m.x>500 && m.y>370 && m.x<600 && m.y<450)
+    console.log('15');
+  
+  else if(m.x>700 && m.y>370 && m.x<800 && m.y<450)
+    console.log('16');
+  
+  else if(m.x>900 && m.y>370 && m.x<1000 && m.y<450)
+    console.log('17');
+  
+  else if(m.x>1100 && m.y>370 && m.x<1200 && m.y<450)
+    console.log('18');
+  
+  else if(m.x>100 && m.y>480 && m.x<200 && m.y<560)
+    console.log('19');
+  
+  else if(m.x>300 && m.y>480 && m.x<400 && m.y<560)
+    console.log('20');
+  
+  else if(m.x>500 && m.y>480 && m.x<600 && m.y<560)
+    console.log('21');
+  
+  else if(m.x>700 && m.y>480 && m.x<800 && m.y<560)
+    console.log('22');
+  
+  else if(m.x>900 && m.y>480 && m.x<1000 && m.y<560)
+    console.log('23');
+  
+  else if(m.x>1100 && m.y>480 && m.x<1200 && m.y<560)
+    console.log('24');
+
+}
+
+canvas.addEventListener('click',click_hint_card);
+
+}
+
+
+
+function level3 (){
+
+  ctx.clearRect(0,0,w,h);
+
+  ctx.beginPath();
+  for(var x=100;x<1200;x+=100){
+     ctx.moveTo(x,100);
+     ctx.lineTo(x,200);
+     ctx.moveTo(x,300);
+     ctx.lineTo(x,500);
+  }
+  ctx.strokeStyle="white";
+  ctx.stroke();
+
+}
+
+function level4(){
+  ctx.clearRect(0,0,w,h);
+  var p_img=document.createElement('img');
+  p_img.src='player_big.png';
+  var p_w=24; var p_h=85;
+  p_img.addEventListener('load',function(){
+  var cycle=0;
+      setInterval(function(){
+      ctx.clearRect(0,0,p_w,p_h);
+      ctx.drawImage(p_img,cycle*p_w,0,p_w,p_h,0,0,p_w,p_h);
+      cycle=(cycle+1)%8;
+
+    },320);
+  });
+
+
+
+}
+
+
+
+
+
+}
+
+</script>
+</body>
+
+</head>
+</html>

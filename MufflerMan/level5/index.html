@@ -1,0 +1,221 @@
+<!--
+Level 5...
+-->
+<!DOCTYPE html>
+<head>
+	<link rel="stylesheet" href="../style.css"></link>
+  <link href="../assets/bootstrap.css" rel="stylesheet">
+</head>
+<body>	
+<canvas id="canvas"></canvas>
+<div id="skin" style="position:absolute;height:100%;width:20%;left:0.5%;top:0.5%;background:rgba(23,118,134,0.4);">
+   
+
+<label for="inputEmail" class="control-label col-xs-2" style="color:white;font-weight:bold;font-size:14px"> &nbsp Name of Your School ?</label>
+ <div class="col-xs-10">
+ <input type="text" class="form-control" id="inputsn" placeholder="School Name">
+ </div>
+<div class="col-xs-offset-2 col-xs-10">
+&nbsp<button type="button" class="btn btn-primary" onclick="draw()">Add</button>
+</div>
+
+<label for="inputEmail" class="control-label col-xs-2" style="color:white;font-weight:bold;font-size:14px"> &nbsp Do you want a large Playground ?</label>
+      &nbsp<input type="radio" name="optradio"><span style="color:white;font-weight:bold">Yes</span> &nbsp&nbsp
+
+
+      <input type="radio" name="optradio"><span style="color:white;font-weight:bold">No</span>&nbsp&nbsp
+      <button type="button" class="btn btn-primary" onclick="drawPlay()">Add</button>
+
+<label for="inputEmail" class="control-label col-xs-2" style="color:white;font-weight:bold;font-size:14px"> &nbsp Do you want Auditoriums ?</label>
+      &nbsp<input type="radio" name="optradio"><span style="color:white;font-weight:bold">Yes</span> &nbsp&nbsp
+
+
+      <input type="radio" name="optradio"><span style="color:white;font-weight:bold">No</span>&nbsp&nbsp
+      <button type="button" class="btn btn-primary" onclick="drawAudi()">Add</button>
+
+<label for="inputEmail" class="control-label col-xs-2" style="color:white;font-weight:bold;font-size:14px"> &nbsp Do you want canteens ?</label>
+      &nbsp<input type="radio" name="optradio"><span style="color:white;font-weight:bold">Yes</span> &nbsp&nbsp
+
+
+      <input type="radio" name="optradio"><span style="color:white;font-weight:bold">No</span>&nbsp&nbsp
+      <button type="button" class="btn btn-primary" onclick="drawCanteen()">Add</button>
+
+<label for="inputEmail" class="control-label col-xs-2" style="color:white;font-weight:bold;font-size:14px"> &nbsp Do you want security guards ?</label>
+      &nbsp<input type="radio" name="optradio"><span style="color:white;font-weight:bold">Yes</span> &nbsp&nbsp
+
+
+      <input type="radio" name="optradio"><span style="color:white;font-weight:bold">No</span>&nbsp&nbsp
+      <button type="button" class="btn btn-primary" onclick="drawSecu()">Add</button>
+   
+
+<label for="inputEmail" class="control-label col-xs-2" style="color:white;font-weight:bold;font-size:14px"> &nbsp Do you want smart classrooms ?</label>
+ 
+
+      &nbsp<input type="radio" name="optradio"><span style="color:white;font-weight:bold">Yes</span> &nbsp&nbsp
+
+
+      <input type="radio" name="optradio"><span style="color:white;font-weight:bold">No</span>&nbsp&nbsp
+
+ 
+
+<button type="button" class="btn btn-primary">Add</button>
+
+
+
+
+
+</div>
+
+
+
+
+	<div id="fb-root"></div>
+	<!--
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&appId=1488321171431950&version=v2.0";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+-->
+
+
+
+
+<div id="over_msg">
+  <br><br><br>
+Game Over 
+<br><br><br><br><br>
+<button type="button" class="btn btn-primary" onclick="window.location.href=''">Play Again</button>
+<br><br><br><br><br>
+<div id="score_details"></div>
+<br><br><br>
+<!--<div class="fb-share-button" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button"></div>
+
+<a href="https://twitter.com/intent/tweet?button_hashtag=Play4AAP&text=Vote%20for%20Kejriwal" class="twitter-hashtag-button" data-related="stndlkr200,stndlkr200">Tweet #Play4AAP</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+-->
+</div>
+
+
+<script type="text/javascript" src="../jquery.js"></script>
+<script type="text/javascript">
+var que=["Name of Your School","Do you want a large playground ?","Do you want an Auditorium ?","Do you want Canteens ?","Do you need security guards?","How many teachers you want per 10 students ?","Do you want smart classroom?"];
+
+
+
+var canvas=document.getElementById('canvas');
+var ctx= canvas.getContext('2d');
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+
+function draw(){
+  ctx.clearRect(365,40,635,90);
+ var sn=document.getElementById('inputsn').value;
+  ctx.beginPath();
+  ctx.moveTo(410,280);
+  ctx.lineTo(410,80);
+  ctx.lineTo(590,80);
+  ctx.lineTo(590,280);
+
+  ctx.moveTo(310,280);
+  ctx.lineTo(310,80);
+  ctx.lineTo(360,80);
+  ctx.lineTo(360,30);
+  ctx.lineTo(640,30);
+  ctx.lineTo(640,80);
+  ctx.lineTo(690,80);
+  ctx.lineTo(690,280);  
+  ctx.lineWidth=1;
+  ctx.strokeStyle="white";
+  ctx.stroke();   
+
+  ctx.font='bold 25px Arial';
+  ctx.fillStyle='white';
+  ctx.textAlign="center";
+  ctx.fillText(sn,500,60);
+  
+  ctx.font='bold 15px Arial';
+  ctx.fillStyle='white';
+  ctx.textAlign="center";
+  ctx.fillText("Main Gate",500,200);
+
+}
+
+function drawPlay(){
+  var img=new Image();
+   
+  ctx.font='bold 15px Arial';
+  ctx.fillStyle='white';
+  ctx.textAlign="center";
+  ctx.fillText("PlayGround of Our Govt. School",900,200);
+
+  
+  img.onload=function(){
+  ctx.drawImage(img,1050,60,200,200);
+  }
+  img.src='play.jpg'
+
+
+}
+
+function drawAudi(){
+  var img=new Image();
+   
+  ctx.font='bold 15px Arial';
+  ctx.fillStyle='white';
+  ctx.textAlign="center";
+  ctx.fillText("Auditorium",390,530);
+
+  
+  img.onload=function(){
+  ctx.drawImage(img,310,300,200,200);
+  }
+  img.src='audi.jpg'
+
+
+}
+
+function drawCanteen(){
+  var img=new Image();
+   
+  ctx.font='bold 15px Arial';
+  ctx.fillStyle='white';
+  ctx.textAlign="center";
+  ctx.fillText("Canteens",720,530);
+
+  
+  img.onload=function(){
+  ctx.drawImage(img,610,300,200,200);
+  }
+  img.src='cant.jpg'
+
+
+}
+
+function drawSecu(){
+  var img=new Image();
+   
+  ctx.font='bold 15px Arial';
+  ctx.fillStyle='white';
+  ctx.textAlign="center";
+  ctx.fillText("Security Guards",1020,530);
+
+  
+  img.onload=function(){
+  ctx.drawImage(img,1010,300,200,200);
+  }
+  img.src='secu1.jpg'
+
+
+}
+
+
+
+
+
+</script>
+
+</body>
+</html>

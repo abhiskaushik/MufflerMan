@@ -1,0 +1,59 @@
+
+*{margin:0;
+    padding: 0;
+}
+
+    
+     html,body {
+    width: 100%;
+    height: 100%;
+    //margin: 0;
+    //padding: 0;
+    //overflow: hidden;
+    //background-color: green;
+}
+
+canvas {
+    //position:absolute;
+    margin-top: -20;
+    width: 100%;
+    height: 100%;
+    //overflow: hidden;
+    background-color: black;
+    display: block;
+    
+}
+#over_msg{
+   height: 100%;
+   width: 100%;
+   position: absolute;
+   left: 0%;
+   top:0%;
+   background-color: rgba(56,56,78,0.6);
+   text-align: center;
+   font-size: 100px;
+   color: rgba(145,56,78,1);
+   display: none;
+   z-index: 10;
+}
+
+/*
+#clean{
+   height: 400px;
+   width: 500px;
+   position: absolute;
+   left: 700px;
+   top:20px;
+   background-color: rgba(56,56,78,0.6);
+   text-align: center;
+   font-size: 100px;
+   color: rgba(145,56,78,1);
+   display: none;
+  // z-index: 10;
+}
+*/
+
+
+
+
+	

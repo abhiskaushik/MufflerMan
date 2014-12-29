@@ -1,0 +1,251 @@
+
+<html>
+<head>
+ <link rel="stylesheet" href="style.css"></link>
+</head>
+<body>
+ 
+  <canvas id="canvas"></canvas>
+
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript">
+
+
+window.onload=function() {
+
+//global variables..
+var canvas=document.getElementById('canvas'),
+    ctx=canvas.getContext('2d'),
+    w = window.innerWidth,
+    h = document.body.offsetHeight;
+    canvas.width=w,
+    canvas.height=h,
+    ctr=0,
+    c_i=0,    
+    words=["We Need Swaraj","Play for Change","Aam Aadmi Party","5 saal Kejriwal","AAP for Change","Vote for Good","Arvind Kejriwal","Kejriwal Fir Se","We Need Swaraj","Play for Change","Aam Aadmi Party","5 saal Kejriwal","AAP for Change","Vote for Good","Arvind Kejriwal","Kejriwal Fir Se","We Need Swaraj","Play for Change","Aam Aadmi Party","5 saal Kejriwal","AAP for Change","Vote for Good","Arvind Kejriwal","Kejriwal Fir Se","We Need Swaraj","Play for Change","Aam Aadmi Party","5 saal Kejriwal","AAP for Change","Vote for Good","Arvind Kejriwal","Kejriwal Fir Se"],
+    j=0;
+
+
+ function box(x,y){
+  this.x=x;
+  this.y=y;
+  this.xVelo=10+Math.random()*20;
+  this.yVelo=1;
+  this.width=500;
+  this.height=500;
+
+  this.r=Math.round(Math.random()*255);
+  this.g=Math.round(Math.random()*255);
+  this.b=Math.round(Math.random()*255);
+  this.rgba = "rgba("+this.r+","+this.g+","+this.b+",1)";
+  this.message=words[j];
+   j++;
+
+   
+this.draw = function()
+        {
+
+          ctx.strokeStyle = this.rgba;
+          ctx.strokeRect(this.x,this.y,this.width,this.height);
+          
+          ctx.font = 'bold 50px Calibri';
+          ctx.textAlign = 'center';
+          ctx.textBaseline='middle';
+          ctx.fillStyle =this.rgba;  
+          ctx.fillText(this.message, this.x+this.width/2, this.y+this.height/2); 
+
+
+           ctr++;
+           if(ctr>7000){
+            clearInterval(timer1);
+
+          ctx.font = 'bold 50px Calibri';
+          ctx.textAlign = 'center';
+          ctx.textBaseline='middle';
+          ctx.fillStyle ="white";  
+          ctx.fillText("Vote For Honest Leaders", 400, 400);
+          ctx.fillText("Vote For Kejriwal", 600, 30);
+          ctx.fillText("Vote For Delhi", 1000, 400); 
+          
+          ctx.strokeStyle="rgba(200,56,78,0.4)";
+          ctx.strokeRect(550,200,100,60);
+          ctx.font = 'bold 20px Calibri';
+          ctx.textAlign = 'center';
+          ctx.textBaseline='middle';
+          ctx.fillStyle ="green";  
+          ctx.fillText("Lets Play !", 600, 230);
+
+
+}
+          this.update();
+
+        }
+        
+        
+        this.update = function()
+        {
+              if(this.x < 0) {
+                 this.x = 0;     
+                 this.xVelo *= -1;          
+             }
+          
+
+          if(this.x > w - this.width)
+          {
+              this.x = w - this.width;    
+              this.xVelo *= -5; 
+          }
+          
+
+          if(this.y < 0) {
+            this.y = 0;     
+            this.yVelo *= -1; 
+          }
+          
+          
+          if(this.y < h - this.height) 
+            this.yVelo += .25;
+          
+          
+          if(this.y > h - this.height)
+          {
+          
+              //this.xVelo *= .5
+              this.yVelo *= .5
+              
+              this.y = h - this.height;     
+              this.yVelo *= -2; 
+          }
+
+
+          this.x += this.xVelo/5;
+          this.y += this.yVelo/3;
+        }
+      }
+      
+
+      var boxes = [];
+      
+      
+      function draw()
+      {
+      
+        ctx.globalCompositeOperation = "source-over";
+        ctx.fillStyle = "rgba(0,0,0,0.5)"
+        ctx.fillRect(0,0,w,h);
+        
+        ctx.globalCompositeOperation = "lighter"
+        
+       
+        for(i=0; i < boxes.length; i++)
+          boxes[i].draw();
+        
+        update();
+      }
+      
+      
+      function update()
+      {
+      
+        for(i=0; i < boxes.length; i++)
+          boxes[i].update();
+      }
+      
+      
+     var timer1= setInterval(function(){
+        boxes.push( new box(0,0))
+      },1000);
+      
+      
+    var timer= setInterval(draw,30);
+
+
+   canvas.addEventListener("click",play_function);
+   
+   function play_function(e){
+    button_x=e.pageX;
+    button_y=e.pageY;
+    if(button_x<650 && button_x>500 && button_y<260 && button_y >200)
+      start_levels(); 
+}
+
+function start_levels(){
+  ctx.clearRect(0,0,w,h);
+  clearInterval(timer);
+  canvas.removeEventListener('click',play_function);
+  
+  var gameNames=['Sketch 4 MM','AAP Ki Team','AAP Office','Clean India','MM & RJ','Awards','Lokpal Bill','Swaraj Bill','D Culprit ?','Free Water','Delhi Dialogue','Save Women','Power By 2','Govt. Schools','MM & Maths','Magic Delhi','5SaalKejriwal','49 plus'
+  ,'AAP ki Education','Our M.L.A','Our M.P','MM & IQ','Flying Wings','Volunteers','Reservation','Make In Delhi','3d Vision','MM & Logic','Hospitals','The Yamuna','Scams','Brave PB','Sisodia Eyes','Action SB','FDI','Run 4 AAP','Best SKills','AAP 4 India',
+  'MM & Circle','Revenge','49 Days','Sting Operation','R.T.I','Donate AAP','YY & Wits','HardWork','Get 2 Door','MM & Sticks','D Broom'];
+   //list of all games...
+  var xpos=10;
+  //var ypos=10;
+for(var g_n=0;g_n<10;g_n++){
+   ctx.strokeStyle="white";
+    ctx.strokeRect(xpos,10,110,80);
+    ctx.fillStyle='red';
+   ctx.font='16px bold cursive';
+   ctx.fillText(g_n+1,xpos+55,20);
+   ctx.fillText(gameNames[g_n],xpos+55,50);
+   xpos+=130;
+}
+xpos=10;
+for(var g_n=10;g_n<20;g_n++){
+   ctx.strokeStyle="white";
+   ctx.strokeRect(xpos,110,110,80);
+    ctx.fillStyle='red';
+   // ctx.font='13px bold cursive';
+   ctx.fillText(g_n+1,xpos+55,120);
+   ctx.fillText(gameNames[g_n],xpos+55,150);
+   xpos+=130;
+}
+
+xpos=10;
+for(var g_n=20;g_n<30;g_n++){
+   ctx.strokeStyle="white";
+   ctx.strokeRect(xpos,210,110,80);
+    ctx.fillStyle='red';
+    ctx.fillText(g_n+1,xpos+55,220);
+   ctx.fillText(gameNames[g_n],xpos+55,250);
+   xpos+=130;
+}
+
+xpos=10;
+for(var g_n=30;g_n<40;g_n++){
+   ctx.strokeStyle="white";
+   ctx.strokeRect(xpos,310,110,80);
+   ctx.fillStyle='red';
+   ctx.fillText(g_n+1,xpos+55,320);
+   ctx.fillText(gameNames[g_n],xpos+55,350);
+   xpos+=130;
+}
+
+xpos=10;
+for(var g_n=40;g_n<50;g_n++){
+   ctx.strokeStyle="white";
+   ctx.strokeRect(xpos,410,110,80);
+   ctx.fillStyle='red';
+   ctx.fillText(g_n+1,xpos+55,420);
+   ctx.fillText(gameNames[g_n],xpos+55,450);
+   xpos+=130;
+}
+  //level1();
+}
+
+
+
+
+
+
+
+
+
+}
+
+</script>
+
+
+
+</body>
+
+</html>
