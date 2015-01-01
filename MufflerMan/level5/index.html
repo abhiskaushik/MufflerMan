@@ -1,89 +1,54 @@
 <!--
-Level 5...
+Level 8...
+Game logic.
+given a 3x3 matrix.. 
+and numbers from 1 to 8..
+
 -->
 <!DOCTYPE html>
 <head>
-	<link rel="stylesheet" href="../style.css"></link>
-  <link href="../assets/bootstrap.css" rel="stylesheet">
+	<title>Level 8</title>
+	<link href="../assets/bootstrap.css" rel="stylesheet">
+	<style>
+	*{
+padding: 0px;
+margin: 0px;
+}
+
+body{
+background-color: #222222;
+}
+
+#canvas{
+background-color: #000000;
+//background-color:rgb(57,88,121);
+position: absolute;
+border: 5px red solid;
+border-radius: 20px;
+}
+
+#over_msg{
+   height: 100%;
+   width: 100%;
+   position: absolute;
+   left: 0%;
+   top:0%;
+   background-color: rgba(56,56,78,0.6);
+   text-align: center;
+   font-size: 100px;
+   color: rgba(145,56,78,1);
+   display: none;
+   z-index: 10;
+}
+
+
+	</style>
 </head>
-<body>	
+<body>
 <canvas id="canvas"></canvas>
-<div id="skin" style="position:absolute;height:100%;width:20%;left:0.5%;top:0.5%;background:rgba(23,118,134,0.4);">
-   
+ <div id="clock" style="position:absolute;right:3%;top:2%;font-weight:bold;color:white;">Clock</div>
 
-<label for="inputEmail" class="control-label col-xs-2" style="color:white;font-weight:bold;font-size:14px"> &nbsp Name of Your School ?</label>
- <div class="col-xs-10">
- <input type="text" class="form-control" id="inputsn" placeholder="School Name">
- </div>
-<div class="col-xs-offset-2 col-xs-10">
-&nbsp<button type="button" class="btn btn-primary" onclick="draw()">Add</button>
-</div>
-
-<label for="inputEmail" class="control-label col-xs-2" style="color:white;font-weight:bold;font-size:14px"> &nbsp Do you want a large Playground ?</label>
-      &nbsp<input type="radio" name="optradio"><span style="color:white;font-weight:bold">Yes</span> &nbsp&nbsp
-
-
-      <input type="radio" name="optradio"><span style="color:white;font-weight:bold">No</span>&nbsp&nbsp
-      <button type="button" class="btn btn-primary" onclick="drawPlay()">Add</button>
-
-<label for="inputEmail" class="control-label col-xs-2" style="color:white;font-weight:bold;font-size:14px"> &nbsp Do you want Auditoriums ?</label>
-      &nbsp<input type="radio" name="optradio"><span style="color:white;font-weight:bold">Yes</span> &nbsp&nbsp
-
-
-      <input type="radio" name="optradio"><span style="color:white;font-weight:bold">No</span>&nbsp&nbsp
-      <button type="button" class="btn btn-primary" onclick="drawAudi()">Add</button>
-
-<label for="inputEmail" class="control-label col-xs-2" style="color:white;font-weight:bold;font-size:14px"> &nbsp Do you want canteens ?</label>
-      &nbsp<input type="radio" name="optradio"><span style="color:white;font-weight:bold">Yes</span> &nbsp&nbsp
-
-
-      <input type="radio" name="optradio"><span style="color:white;font-weight:bold">No</span>&nbsp&nbsp
-      <button type="button" class="btn btn-primary" onclick="drawCanteen()">Add</button>
-
-<label for="inputEmail" class="control-label col-xs-2" style="color:white;font-weight:bold;font-size:14px"> &nbsp Do you want security guards ?</label>
-      &nbsp<input type="radio" name="optradio"><span style="color:white;font-weight:bold">Yes</span> &nbsp&nbsp
-
-
-      <input type="radio" name="optradio"><span style="color:white;font-weight:bold">No</span>&nbsp&nbsp
-      <button type="button" class="btn btn-primary" onclick="drawSecu()">Add</button>
-   
-
-<label for="inputEmail" class="control-label col-xs-2" style="color:white;font-weight:bold;font-size:14px"> &nbsp Do you want smart classrooms ?</label>
- 
-
-      &nbsp<input type="radio" name="optradio"><span style="color:white;font-weight:bold">Yes</span> &nbsp&nbsp
-
-
-      <input type="radio" name="optradio"><span style="color:white;font-weight:bold">No</span>&nbsp&nbsp
-
- 
-
-<button type="button" class="btn btn-primary">Add</button>
-
-
-
-
-
-</div>
-
-
-
-
-	<div id="fb-root"></div>
-	<!--
-<script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&appId=1488321171431950&version=v2.0";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
--->
-
-
-
-
-<div id="over_msg">
+<div id="over_msg" >
   <br><br><br>
 Game Over 
 <br><br><br><br><br>
@@ -98,124 +63,173 @@ Game Over
 -->
 </div>
 
-
 <script type="text/javascript" src="../jquery.js"></script>
 <script type="text/javascript">
-var que=["Name of Your School","Do you want a large playground ?","Do you want an Auditorium ?","Do you want Canteens ?","Do you need security guards?","How many teachers you want per 10 students ?","Do you want smart classroom?"];
 
 
+var canvas = document.getElementById("canvas"),
+    ctx = canvas.getContext("2d");
+var rat=0.9;
+canvas.style.left =	0.1*window.innerWidth;
+canvas.style.top =	0.1*window.innerHeight;
+canvas.width = rat*window.innerWidth;
+canvas.height = rat*window.innerHeight;
 
-var canvas=document.getElementById('canvas');
-var ctx= canvas.getContext('2d');
-canvas.width=window.innerWidth;
-canvas.height=window.innerHeight;
+var x = 350,
+    y = 350,
+    velY = 0,
+    velX = 0,
+    speed = 4, //max-speed
+    friction = 0.98,
+    keys = [],
+    W=rat*window.innerWidth,
+    H= rat*window.innerHeight,
+    evils=[],
+    time=1,
+    score=0;
 
-function draw(){
-  ctx.clearRect(365,40,635,90);
- var sn=document.getElementById('inputsn').value;
-  ctx.beginPath();
-  ctx.moveTo(410,280);
-  ctx.lineTo(410,80);
-  ctx.lineTo(590,80);
-  ctx.lineTo(590,280);
+var timer=setInterval(function(){
+   document.getElementById('clock').innerHTML=time +' Secs';
+   time++;
+   score=time;
+},1000);
 
-  ctx.moveTo(310,280);
-  ctx.lineTo(310,80);
-  ctx.lineTo(360,80);
-  ctx.lineTo(360,30);
-  ctx.lineTo(640,30);
-  ctx.lineTo(640,80);
-  ctx.lineTo(690,80);
-  ctx.lineTo(690,280);  
-  ctx.lineWidth=1;
-  ctx.strokeStyle="white";
-  ctx.stroke();   
 
-  ctx.font='bold 25px Arial';
-  ctx.fillStyle='white';
-  ctx.textAlign="center";
-  ctx.fillText(sn,500,60);
-  
-  ctx.font='bold 15px Arial';
-  ctx.fillStyle='white';
-  ctx.textAlign="center";
-  ctx.fillText("Main Gate",500,200);
+var ball=new Image();
+  //ball.src='ball.png';
 
+var collision=new Audio('../level9/bad.wav');
+var safe=new Audio('safe.wav');
+
+for(var i = 0; i < 4; i++)
+{
+evils.push(new evil());
 }
 
-function drawPlay(){
-  var img=new Image();
+function evil(){
+
+	this.xt =Math.floor(Math.random()*W/5);
+	this.yt = Math.floor(Math.random()*H/5);
+	this.vx =Math.floor( Math.random()*8-3);
+	this.vy =Math.floor( Math.random()*8-3);
+	this.r=Math.random()*255>>0; this.g=Math.random()*255>>0; this.b=Math.random()*255>>0;
+	this.radiust = Math.random()*20+20;
+}
+
+
+
+
+
+
+function update() {
+
+  
+    if (keys[38]) {
+        if (velY > -speed) {
+            velY--;
+        }
+    }
+    if (keys[40]) {
+        if (velY < speed) {
+            velY++;
+        }
+    }
+    if (keys[39]) {
+        if (velX < speed) {
+            velX++;
+        }
+    }
+    if (keys[37]) {
+        if (velX > -speed) {
+            velX--;
+        }
+    }
+
+    velY *= friction;
+    y += velY;
+
+    velX *= friction;
+    x += velX;
+	
+    if (x >= (canvas.width-5)) {
+        x = 5;
+    } else if (x <= 5) {
+        x = (canvas.width-5);
+    }
+
+    if (y >= (canvas.height-5)) {
+        y = 5;
+    } else if (y <= 5) {
+        y = (canvas.height-5);
+    }
+	
+	ctx.fillStyle="rgba(0,0,0,0.3)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
    
-  ctx.font='bold 15px Arial';
-  ctx.fillStyle='white';
-  ctx.textAlign="center";
-  ctx.fillText("PlayGround of Our Govt. School",900,200);
+   //ball.onload=function(){
+	//	 	ctx.drawImage(ball,x,y);
+	//	 }
+	//	 ball.src='ball.png';
+     ctx.beginPath();
+     ctx.arc(x, y, 15, 0, Math.PI * 2);
+     ctx.fillStyle="white";
+	 ctx.fill();
 
-  
-  img.onload=function(){
-  ctx.drawImage(img,1050,60,200,200);
-  }
-  img.src='play.jpg'
+    //move evils..
+     //motion of evils....
+    for(var t = 0; t < evils.length; t++)
+	{ 
+       var p = evils[t];
+        ctx.beginPath();
+        ctx.fillStyle="rgba("+p.r+","+p.g+","+p.b+",0.6)";
+		ctx.arc(p.xt, p.yt, p.radiust, Math.PI*2, false);
+
+		ctx.fill();
+		
+
+		p.xt =p.xt+ 2*p.vx;
+		p.yt += p.vy;
+
+		if(p.xt < -50) p.xt = W+50;
+		if(p.yt < -50) p.yt = H+50;
+		if(p.xt > W+50) p.xt = -50;
+		if(p.yt > H+50) p.yt = -50;
+      
+     //check collision of evils with hero...
+         if(Math.abs(p.xt-x)<p.radiust+15 && Math.abs(p.yt-y)<p.radiust+15){
+         	console.log('collioded');//alert('game over');
+         	collision.play();
+            document.getElementById('over_msg').style.display='block';
+            document.getElementById('score_details').innerHTML='Your Score is '+score;
+            clearInterval(gameloop);
+            clearInterval(timer);
+
+           }
+
+	}
 
 
+
+
+
+    //setTimeout(update, 10);
 }
 
-function drawAudi(){
-  var img=new Image();
-   
-  ctx.font='bold 15px Arial';
-  ctx.fillStyle='white';
-  ctx.textAlign="center";
-  ctx.fillText("Auditorium",390,530);
+var gameloop=setInterval(update,10);
 
-  
-  img.onload=function(){
-  ctx.drawImage(img,310,300,200,200);
-  }
-  img.src='audi.jpg'
-
-
-}
-
-function drawCanteen(){
-  var img=new Image();
-   
-  ctx.font='bold 15px Arial';
-  ctx.fillStyle='white';
-  ctx.textAlign="center";
-  ctx.fillText("Canteens",720,530);
-
-  
-  img.onload=function(){
-  ctx.drawImage(img,610,300,200,200);
-  }
-  img.src='cant.jpg'
-
-
-}
-
-function drawSecu(){
-  var img=new Image();
-   
-  ctx.font='bold 15px Arial';
-  ctx.fillStyle='white';
-  ctx.textAlign="center";
-  ctx.fillText("Security Guards",1020,530);
-
-  
-  img.onload=function(){
-  ctx.drawImage(img,1010,300,200,200);
-  }
-  img.src='secu1.jpg'
-
-
-}
-
-
-
+document.addEventListener("keydown", function (e) {
+    keys[e.keyCode] = true;
+    safe.play();
+});
+document.addEventListener("keyup", function (e) {
+    keys[e.keyCode] = false;
+});
 
 
 </script>
-
+<!--<link href="../assets/bootstrap.css" rel="stylesheet">-->
 </body>
 </html>
+
+
+

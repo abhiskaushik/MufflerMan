@@ -1,204 +1,181 @@
-/*
-Level 1
-Skecth for MM
-*/
-
+<!--
+Level 1.
+@abhishek
+23rd Dec. 2014
+Game Logic:
+User will use eraser to clear out
+canvas and i will keep track of area
+being cleared out.
+Not novicely through each pixel
+but will save the canvas...
+cool (y)
+-->
 <!DOCTYPE html>
 <head>
-	<link rel="stylesheet" href="../style.css"></link>
-  <link href="../assets/bootstrap.css" rel="stylesheet">
+<style type="text/css">
+ 
+.panel-body {
+background:black;
+}
+  
+canvas {
+            border:1px solid red;
+        }
+
+#instructions{
+	font-weight: bold;
+	font-family: Georgia;
+	font-variant: small-caps;
+	color:white;
+	font-size: 15px;
+	position: absolute;
+	top:10%;
+	left:2%; 
+}
+
+
+</style>
+<script type="text/javascript" src="../jquery.js"></script>\
+<script type="text/javascript" src="resemble.js"></script>
+<link href="../assets/bootstrap.css" rel="stylesheet">
 </head>
-<body>
+<body class='panel-body'>
+<canvas id="can_img" width=300 height=300 style="position:absolute;left:35%;top:10%"></canvas>
+<canvas id="canvas" width=300 height=300 style="position:absolute;left:35%;top:10%" ></canvas>
+<div id ="instructions">Instructions:<br><br>Erasor Would Increse Your Score,<br>Pen Would Decrease</br>Drag Your Mouse Over The White Screen</div>
+</br>
+<button type="button" class="btn btn-primary" id="pen" style="position:absolute;left:41%;top:61%">Pen</button>
+<button id="eraser" type="button" class="btn btn-primary" style="position:absolute;left:47%;top:61%">Eraser</button>
 
 
-	<div id="fb-root"></div>
-<script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=1488321171431950&version=v2.0";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
-
-
-
-
-<canvas id="canvas"></canvas>
-<div id="over_msg">
-  <br><br><br>
-Game Over 
-<br><br><br><br><br>
-<button type="button" class="btn btn-primary" onclick="window.location.href=''">Play Again</button>
-<br><br><br><br><br>
-<div id="score_details"></div>
-<br><br><br>
-<div class="fb-share-button" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button"></div>
-
-<a href="https://twitter.com/intent/tweet?button_hashtag=Play4AAP&text=Vote%20for%20Kejriwal" class="twitter-hashtag-button" data-related="stndlkr200,stndlkr200">Tweet #Play4AAP</a>
-<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-
-</div>
-<script type="text/javascript" src="../jquery.js"></script>
 <script type="text/javascript">
 
+        var canvas = document.getElementById("canvas");
+        var ctx = canvas.getContext("2d");
+        var canvas_img = document.getElementById("can_img");
+        var ctx_img = canvas_img.getContext("2d");
 
 
-window.onload=function() {
+               
+        var lastX;
+        var lastY;
+        var strokeColor = "red";
+        var strokeWidth = 2;
+        var mouseX;
+        var mouseY;
+        var canvasOffset = $("#canvas").offset();
+        var offsetX = canvasOffset.left;
+        var offsetY = canvasOffset.top;
+        var isMouseDown = false;
 
 
-var canvas=document.getElementById('canvas'),
-    ctx=canvas.getContext('2d'),
-    w = window.innerWidth,
-    h = document.body.offsetHeight;
+         
 
-    canvas.width=w;
-    canvas.height=h;
+        var ak=new Image();
+        ak.onload=function(){
+       
+        ctx_img.drawImage(ak,0,0,300,300);
+        }
+        ak.src='ak.jpg';
+        
+        var whiteimg=new Image();
+       whiteimg.onload=function(){
+       
+        ctx.drawImage(whiteimg,0,0,300,300);
+       // ctx.globalCompositeOperation="destination-out";
+        }
+        whiteimg.src='whiteimg.jpg';
 
-    ctx.clearRect(0,0,w,h);
-
-     ctx.font = '13px Arial';
-     ctx.textAlign = 'center';
-     ctx.textBaseline='middle';
-     ctx.fillStyle ="white";  
-     ctx.fillText("MufflerMan wants you to sketch something.. Please do",500,10);
-
-
-
-
-     var dots=[];
-
-
-var dotXval=["500","250","150","720","850"];
-var dotYval=["100","250","300","250","300"];
-
-var score;
-function dot(xcod,ycod,radius,value){
-   this.xcod=xcod;
-   this.ycod=ycod;
-   this.radius=radius;
-   this.val=value;
-}
-
-function create_dots(x,y,radius,value){
-
-  ctx.beginPath();
-  ctx.arc(x,y,radius,0,2*Math.PI,true);
-  ctx.fillStyle="white";
-  ctx.fill();
-  //adding numbers..
-  ctx.font = '10px Arial';
-  ctx.textAlign = 'center';
-  ctx.textBaseline='middle';
-  ctx.fillStyle ="white";  
-  ctx.fillText(value,x-10,y-10);
-
-}
-
-
-function  startLevel(){
-
-    var dotRadius=10;
-    var dotsCount=5;
-  
-    for (var i = 0; i <dotsCount; i++){
- 
-      dots.push(new dot(dotXval[i],dotYval[i],dotRadius,i+1));
-
-    }
+         //ctx.fillStyle="white";
+         //ctx.fillRect(0,0,300,300);
+         //ctx.globalCompositeOperation="destination-out";
     
-    for (var _j=0; _j<dots.length; _j++) { 
-   create_dots(dots[_j].xcod, dots[_j].ycod,5,dots[_j].val);
 
-    }
+        function handleMouseDown(e) {
+            mouseX = parseInt(e.clientX - offsetX);
+            mouseY = parseInt(e.clientY - offsetY);
 
+            // Put your mousedown stuff here
+            lastX = mouseX;
+            lastY = mouseY;
+            isMouseDown = true;
+        }
 
-}
+        function handleMouseUp(e) {
+            mouseX = parseInt(e.clientX - offsetX);
+            mouseY = parseInt(e.clientY - offsetY);
 
-startLevel();
+            // Put your mouseup stuff here
+            isMouseDown = false;
+        }
 
-var mouse={x:0,y:0};
+        function handleMouseOut(e) {
+            mouseX = parseInt(e.clientX - offsetX);
+            mouseY = parseInt(e.clientY - offsetY);
 
+            // Put your mouseOut stuff here
+            isMouseDown = false;
+        }
 
-var drag4sketch=function(e){
- 
- mouse.x=e.pageX-this.offsetLeft;
- mouse.y=e.pageY-this.offsetTop;
+        function handleMouseMove(e) {
+            mouseX = parseInt(e.clientX - offsetX);
+            mouseY = parseInt(e.clientY - offsetY);
 
-
-}
-
-
-canvas.addEventListener('mousemove',drag4sketch);
-
-
-
-ctx.lineWidth = 6;
-ctx.lineJoin = 'round';
-ctx.lineCap = 'round';
-ctx.strokeStyle = 'red';
-
-canvas.addEventListener('mousedown',function(e){
-ctx.beginPath();
-ctx.moveTo(mouse.x,mouse.y);
-
-canvas.addEventListener('mousemove',sketch,false);
-
-},false);
-
- 
-canvas.addEventListener('mouseup',function(){
- 
-canvas.removeEventListener('mousemove',sketch,false);
-
-},false);
-
-
-
-var sketch=function(){
-
-ctx.lineTo(mouse.x,mouse.y);
-ctx.stroke();
-}
-
-var time=0;
-
-var clock=function(){
-   ctx.clearRect(1000,20,1200,200);
-   ctx.font = '20px Arial';
-
-   ctx.fillStyle ="white";  
-   ctx.fillText(time++ + ' sec',1120,30);
-  
-  if(time>1){
-    clearInterval(setClock1);
-    //ctx.fillStyle="rgba(25,45,46,0.5)";
-    ctx.clearRect(0,0,w,h);
-    //ctx.font="100px bold cursive";
-    //ctx.textAlign="left";
-    //ctx.fillText( 'Vote for AAP',0,300);
-    score=time;
-
-    canvas.removeEventListener('mousemove',sketch);
-    canvas.removeEventListener('mouseup',sketch);
-    canvas.removeEventListener('mousedown',sketch); 
-    canvas.removeEventListener('mousemove',sketch);
-    canvas.removeEventListener('mousemove',drag4sketch);  
-   document.getElementById('over_msg').style.display="block";
-   document.getElementById('score_details').innerHTML="Your Score is "+ score;
-} 
-
-}
-
-var setClock1=setInterval(clock,1000);
-
-}
+            // Put your mousemove stuff here
+            if (isMouseDown) {
+                ctx.beginPath();
+                if (mode == "pen") {
+                    ctx.globalCompositeOperation = "source-over";
+                    ctx.moveTo(lastX, lastY);
+                    ctx.lineTo(mouseX, mouseY);
+                    ctx.stroke();
+                } else {
+                    ctx.globalCompositeOperation = "destination-out";
+                    ctx.clearRect(lastX,lastY,8,8);
+                    //checkWipingStatus();
+                    //ctx.arc(lastX, lastY, 5, 0, Math.PI * 2, false);
+                    //ctx.fill();
+                }
+                lastX = mouseX;
+                lastY = mouseY;
+            }
+        }
 
 
+
+
+
+        $("#canvas").mousedown(function (e) {
+            handleMouseDown(e);
+        });
+        $("#canvas").mousemove(function (e) {
+            handleMouseMove(e);
+        });
+        $("#canvas").mouseup(function (e) {
+            handleMouseUp(e);
+        });
+        $("#canvas").mouseout(function (e) {
+            handleMouseOut(e);
+        });
+
+        var mode = "pen";
+        $("#pen").click(function () {
+            mode = "pen";
+        });
+        $("#eraser").click(function () {
+            mode = "eraser";
+        });
+
+
+
+//var timer=setInterval(function(){
+
+    // resemble(ak).compareTo(whiteimg).onComplete(function(data){
+      //      console.log(data);
+
+  //},2000);
 
 
 </script>
-
-
 </body>
-
 </html>

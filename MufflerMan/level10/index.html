@@ -1,227 +1,221 @@
 <!--
-Level 10..
-Collect for AAP..
-MM has to collect AAP terms
-and escape from bjp terms..
-if he touches bjp terms he dies.
-if he touches aap terms he gains life.
+Level 5...
+-->
+<!DOCTYPE html>
+<head>
+	<link rel="stylesheet" href="../style.css"></link>
+  <link href="../assets/bootstrap.css" rel="stylesheet">
+</head>
+<body>	
+<canvas id="canvas"></canvas>
+<div id="skin" style="position:absolute;height:100%;width:20%;left:0.5%;top:0.5%;background:rgba(23,118,134,0.4);">
+   
 
+<label for="inputEmail" class="control-label col-xs-2" style="color:white;font-weight:bold;font-size:14px"> &nbsp Name of Your School ?</label>
+ <div class="col-xs-10">
+ <input type="text" class="form-control" id="inputsn" placeholder="School Name">
+ </div>
+<div class="col-xs-offset-2 col-xs-10">
+&nbsp<button type="button" class="btn btn-primary" onclick="draw()">Add</button>
+</div>
+
+<label for="inputEmail" class="control-label col-xs-2" style="color:white;font-weight:bold;font-size:14px"> &nbsp Do you want a large Playground ?</label>
+      &nbsp<input type="radio" name="optradio"><span style="color:white;font-weight:bold">Yes</span> &nbsp&nbsp
+
+
+      <input type="radio" name="optradio"><span style="color:white;font-weight:bold">No</span>&nbsp&nbsp
+      <button type="button" class="btn btn-primary" onclick="drawPlay()">Add</button>
+
+<label for="inputEmail" class="control-label col-xs-2" style="color:white;font-weight:bold;font-size:14px"> &nbsp Do you want Auditoriums ?</label>
+      &nbsp<input type="radio" name="optradio"><span style="color:white;font-weight:bold">Yes</span> &nbsp&nbsp
+
+
+      <input type="radio" name="optradio"><span style="color:white;font-weight:bold">No</span>&nbsp&nbsp
+      <button type="button" class="btn btn-primary" onclick="drawAudi()">Add</button>
+
+<label for="inputEmail" class="control-label col-xs-2" style="color:white;font-weight:bold;font-size:14px"> &nbsp Do you want canteens ?</label>
+      &nbsp<input type="radio" name="optradio"><span style="color:white;font-weight:bold">Yes</span> &nbsp&nbsp
+
+
+      <input type="radio" name="optradio"><span style="color:white;font-weight:bold">No</span>&nbsp&nbsp
+      <button type="button" class="btn btn-primary" onclick="drawCanteen()">Add</button>
+
+<label for="inputEmail" class="control-label col-xs-2" style="color:white;font-weight:bold;font-size:14px"> &nbsp Do you want security guards ?</label>
+      &nbsp<input type="radio" name="optradio"><span style="color:white;font-weight:bold">Yes</span> &nbsp&nbsp
+
+
+      <input type="radio" name="optradio"><span style="color:white;font-weight:bold">No</span>&nbsp&nbsp
+      <button type="button" class="btn btn-primary" onclick="drawSecu()">Add</button>
+   
+
+<label for="inputEmail" class="control-label col-xs-2" style="color:white;font-weight:bold;font-size:14px"> &nbsp Do you want smart classrooms ?</label>
+ 
+
+      &nbsp<input type="radio" name="optradio"><span style="color:white;font-weight:bold">Yes</span> &nbsp&nbsp
+
+
+      <input type="radio" name="optradio"><span style="color:white;font-weight:bold">No</span>&nbsp&nbsp
+
+ 
+
+<button type="button" class="btn btn-primary">Add</button>
+
+
+
+
+
+</div>
+
+
+
+
+	<div id="fb-root"></div>
+	<!--
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&appId=1488321171431950&version=v2.0";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
 -->
 
-<html>
-<head>
-<title>Level 10</title>
-</head>
 
-<style>
 
-*{
-padding: 0px;
-margin: 0px;
-}
 
-body{
-background-color: #222222;
-}
+<div id="over_msg">
+  <br><br><br>
+Game Over 
+<br><br><br><br><br>
+<button type="button" class="btn btn-primary" onclick="window.location.href=''">Play Again</button>
+<br><br><br><br><br>
+<div id="score_details"></div>
+<br><br><br>
+<!--<div class="fb-share-button" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button"></div>
 
-#canvas{
-background-color: #000000;
-position: absolute;
-border: 5px red solid;
-border-radius: 20px;
-}
+<a href="https://twitter.com/intent/tweet?button_hashtag=Play4AAP&text=Vote%20for%20Kejriwal" class="twitter-hashtag-button" data-related="stndlkr200,stndlkr200">Tweet #Play4AAP</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+-->
+</div>
 
-</style>
 
-<body>
-
-<canvas id="canvas"></canvas>
-
+<script type="text/javascript" src="../jquery.js"></script>
 <script type="text/javascript">
+var que=["Name of Your School","Do you want a large playground ?","Do you want an Auditorium ?","Do you want Canteens ?","Do you need security guards?","How many teachers you want per 10 students ?","Do you want smart classroom?"];
 
 
-var canvas = document.getElementById("canvas"),
-    ctx = canvas.getContext("2d");
 
-canvas.style.left =	0.1*window.innerWidth;
-canvas.style.top =	0.1*window.innerHeight;
-canvas.width = 0.8*window.innerWidth;
-canvas.height = 0.8*window.innerHeight;
+var canvas=document.getElementById('canvas');
+var ctx= canvas.getContext('2d');
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
 
-var x = 150,
-    y = 150,
-    velY = 0,
-    velX = 0,
-    speed = 5, //max-speed
-    friction = 0.98,
-    keys = [];
-    W=0.8*window.innerWidth,
-    H=0.8*window.innerHeight;
+function draw(){
+  ctx.clearRect(365,40,635,90);
+ var sn=document.getElementById('inputsn').value;
+  ctx.beginPath();
+  ctx.moveTo(410,280);
+  ctx.lineTo(410,80);
+  ctx.lineTo(590,80);
+  ctx.lineTo(590,280);
 
-var mm=new Image();
-var patt=new Image();
+  ctx.moveTo(310,280);
+  ctx.lineTo(310,80);
+  ctx.lineTo(360,80);
+  ctx.lineTo(360,30);
+  ctx.lineTo(640,30);
+  ctx.lineTo(640,80);
+  ctx.lineTo(690,80);
+  ctx.lineTo(690,280);  
+  ctx.lineWidth=1;
+  ctx.strokeStyle="white";
+  ctx.stroke();   
 
-var good=new Audio('../level9/sfx.wav');
-var bad=new Audio('../level9/bad.wav');
+  ctx.font='bold 25px Arial';
+  ctx.fillStyle='white';
+  ctx.textAlign="center";
+  ctx.fillText(sn,500,60);
+  
+  ctx.font='bold 15px Arial';
+  ctx.fillStyle='white';
+  ctx.textAlign="center";
+  ctx.fillText("Main Gate",500,200);
 
-var aaps=[];
-var bjps=[];
-var aapwords=['Jan Lokpal','Delhi Dialogue','RTI','Anti Corruption'];
-var bjpwords=['Dharm Lokpal','Gali Dialogue','RTH','Corruption'];
-function aap(msg){
-    this.xt =Math.floor(Math.random()*1000+1);
-	this.yt =Math.floor(Math.random()*(-20) -1);
-	this.vx =0;
-	this.vy =Math.floor( Math.random()*5+1);
-	this.r=Math.random()*255>>0; this.g=Math.random()*255>>0; this.b=Math.random()*255>>0;
-	this.ht=40;
-	this.wt=40;
-	this.msg=msg;
 }
 
-function bjp(msg){
-    this.xt =Math.floor(Math.random()*1000+1);
-	this.yt =Math.floor(Math.random()*(-20) -1);
-	this.vx =0;
-	this.vy =Math.floor( Math.random()*5+1);
-	this.r=Math.random()*255>>0; this.g=Math.random()*255>>0; this.b=Math.random()*255>>0;
-	this.ht=40;
-	this.wt=60;
-	this.msg=msg;
-}
-
-for(var k=0;k<4;k++){
-	aaps.push(new aap(aapwords[k]));
-	bjps.push(new bjp(bjpwords[k]));
-}
-
-
-
-function update() {
-
-    if (keys[39]) {
-        if (velX < speed) {
-            velX++;
-        }
-    }
-    if (keys[37]) {
-        if (velX > -speed) {
-            velX--;
-        }
-    }
-
-    velX *= friction;
-    x += velX;
-	
-    if (x >= (canvas.width-5)) {
-        x = 5;
-    } else if (x <= 5) {
-        x = (canvas.width-5);
-    }
-	
-	//ctx.fillStyle="rgba(0,0,0,0.3)";
-	patt.onload=function(){
-      var pattern = ctx.createPattern(patt, 'repeat');
-	   ctx.fillStyle=pattern;
-       ctx.fillRect(0, 0, canvas.width, canvas.height);
-	}
-	patt.src='back.png';
-	
+function drawPlay(){
+  var img=new Image();
    
-	mm.onload=function(){
-		ctx.drawImage(mm,x,391,100,100);
-      }
-      mm.src="mm1.png";
+  ctx.font='bold 15px Arial';
+  ctx.fillStyle='white';
+  ctx.textAlign="center";
+  ctx.fillText("PlayGround of Our Govt. School",900,200);
 
-    
-   for(var _t=0;_t<aaps.length;_t++){
-     
-        var p = aaps[_t];
-           
-        
-      
-        ctx.beginPath();
-        ctx.fillStyle="rgba("+p.r+","+p.g+","+p.b+",0.6)";
-        ctx.fillRect(p.xt,p.yt,p.msg.length*15,p.ht);
-        ctx.font='20px bold Geogrgia';
-        ctx.textAlign='center';
-        ctx.fillStyle='white';
-        ctx.fillText(p.msg,p.xt+(p.msg.length*15/2),p.yt+25);
-		ctx.fill();
-		
-
-	
-		p.yt += p.vy/5;
-
-		if(p.xt < -50) p.xt = W+50;
-		if(p.yt < -50) p.yt = H+50;
-		if(p.xt > W+50) p.xt = -50;
-		if(p.yt > H+50) p.yt = -50;
-      
-     //check collision of evils with hero...
-
-       if (x < p.xt + p.msg.length*15 && x + 100 > p.xt && 391 < p.yt + p.ht && 391 + 100 > p.yt){
-       	 console.log('collioded');
-          good.play();
-       	}
-    
-
-   }
+  
+  img.onload=function(){
+  ctx.drawImage(img,1050,60,200,200);
+  }
+  img.src='play.jpg'
 
 
-      for(var _tt=0;_tt<bjps.length;_tt++){
-     
-        var pt = bjps[_tt];
-         
-        ctx.beginPath();
-        ctx.fillStyle="rgba("+pt.r+","+pt.g+","+pt.b+",0.6)";
-        ctx.fillRect(pt.xt,pt.yt,pt.msg.length*15,pt.ht);
-        ctx.font='20px bold Geogrgia';
-        ctx.textAlign='center';
-        ctx.fillStyle='red';
-        ctx.fillText(pt.msg,pt.xt+(pt.msg.length*15/2),pt.yt+25);
-		ctx.fill();
-		
-
-
-		pt.yt += pt.vy;
-
-		if(pt.xt < -50) pt.xt = W+50;
-		if(pt.yt < -50) pt.yt = H+50;
-		if(pt.xt > W+50) pt.xt = -50;
-		if(pt.yt > H+50) pt.yt = -50;
-      
-     //check collision of evils with hero...
-       
-     if (x < pt.xt + pt.msg.length*15 && x + 100 > pt.xt && 391 < pt.yt + pt.ht && 391 + 100 > pt.yt){
-       	 console.log('collioded');
-          bad.play();
-       	}
-
-   }
-
-
-
-
-
-  requestAnimationFrame(update);
 }
 
-update();
+function drawAudi(){
+  var img=new Image();
+   
+  ctx.font='bold 15px Arial';
+  ctx.fillStyle='white';
+  ctx.textAlign="center";
+  ctx.fillText("Auditorium",390,530);
 
-document.addEventListener("keydown", function (e) {
-    keys[e.keyCode] = true;
-});
-document.addEventListener("keyup", function (e) {
-    keys[e.keyCode] = false;
-});
+  
+  img.onload=function(){
+  ctx.drawImage(img,310,300,200,200);
+  }
+  img.src='audi.jpg'
 
 
+}
+
+function drawCanteen(){
+  var img=new Image();
+   
+  ctx.font='bold 15px Arial';
+  ctx.fillStyle='white';
+  ctx.textAlign="center";
+  ctx.fillText("Canteens",720,530);
+
+  
+  img.onload=function(){
+  ctx.drawImage(img,610,300,200,200);
+  }
+  img.src='cant.jpg'
+
+
+}
+
+function drawSecu(){
+  var img=new Image();
+   
+  ctx.font='bold 15px Arial';
+  ctx.fillStyle='white';
+  ctx.textAlign="center";
+  ctx.fillText("Security Guards",1020,530);
+
+  
+  img.onload=function(){
+  ctx.drawImage(img,1010,300,200,200);
+  }
+  img.src='secu1.jpg'
+
+
+}
 
 
 
 
 
 </script>
+
 </body>
 </html>

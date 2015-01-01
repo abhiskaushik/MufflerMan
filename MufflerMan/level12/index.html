@@ -1,0 +1,328 @@
+/*
+Level 2...
+AAP ki Team..
+*/
+
+
+<!DOCTYPE html>
+<head>
+	<link rel="stylesheet" href="../style.css"></link>
+  <link href="../assets/bootstrap.css" rel="stylesheet">
+</head>
+<body>
+
+
+	<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&appId=1488321171431950&version=v2.0";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+<canvas id="canvas"></canvas>
+<div id="over_msg">
+  <br><br><br>
+Game Over 
+<br><br><br><br><br>
+<button type="button" class="btn btn-primary" onclick="window.location.href=''">Play Again</button>
+<br><br><br><br><br>
+<div id="score_details"></div>
+<br><br><br>
+<div class="fb-share-button" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button"></div>
+
+<a href="https://twitter.com/intent/tweet?button_hashtag=Play4AAP&text=Vote%20for%20Kejriwal" class="twitter-hashtag-button" data-related="stndlkr200,stndlkr200">Tweet #Play4AAP</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+
+</div>
+<script type="text/javascript" src="../jquery.js"></script>
+
+
+
+<script type="text/javascript">
+
+//function level2(){
+
+var canvas=document.getElementById('canvas'),
+    ctx=canvas.getContext('2d'),
+    w = window.innerWidth,
+    h = document.body.offsetHeight;
+
+    canvas.width=w;
+    canvas.height=h;
+
+    ctx.clearRect(0,0,w,h);
+
+
+
+var m={x:0,y:0};
+var m_img=new Image();
+
+var rect_cordsX=["100","300","500","700","900","1100"];
+var rect_cordsY=["50","160","370","480"];
+var hints=["Trader","Businessman","Student","Teacher","Writer","Scientist","Politicion","MufflerMan","Auto Driver","Police","Doctor","Industrialist","Soldier","Musician","Cobbler","Social Worker","MufflerMan","Engineer","Advocate","Reporter","Editor","MufflerMan","Poet","Actor"];
+
+          ctx.font = 'bold 13px Arial';
+          ctx.textAlign = 'center';
+          ctx.textBaseline='middle';
+          ctx.fillStyle ="white";  
+          ctx.fillText("MufflerMan wants you to find his companions..Your Luck! ",620,10);
+           
+          m_img.onload=function(){
+            ctx.drawImage(m_img,618,260,60,100);
+
+          }
+           m_img.src='mn.png';
+
+
+var hint_cards=[];
+
+ var hint_card=function(x,y,hint){
+     this.x=x;
+     this.y=y;
+     this.hint=hint;
+
+
+ }
+
+
+  for (var i = 0; i< rect_cordsX.length; i++) {
+     
+      for (var _j=0;_j<rect_cordsY.length;_j++){
+        hint_cards.push(new hint_card(rect_cordsX[i],rect_cordsY[_j],hints[i*_j]));          
+
+      }
+   } 
+
+
+      for (var k=0;k<hint_cards.length;k++){
+        
+          //ctx.rect(hint_cards[k].x,hint_cards[k].y,100,80);
+          ctx.strokeStyle="white";
+          //ctx.stroke();
+          ctx.strokeRect(hint_cards[k].x,hint_cards[k].y,100,80);
+          
+          ctx.font = 'bold 15px Calibri';
+          ctx.textAlign="center";
+          ctx.textBaseline="middle";
+          ctx.fillStyle="white";
+          ctx.fillText(hints[k],parseInt(hint_cards[k].x)+50,parseInt(hint_cards[k].y)+40);          
+
+   } 
+
+
+
+function update_score(c_i,desg){
+
+     ctx.font="bold 33px Cursive";
+     ctx.fillStyle="lightblue";
+     ctx.textAlign="center";
+     ctx.fillText(c_i,645,240);
+     ctx.fillText("Wow ! You Lucky Man!",285,300);
+     ctx.fillText("This " + desg + " is another Kejriwal !"  ,985,300);
+     
+
+}
+
+function update_bad_msg(bad_msg){
+     ctx.font="bold 33px Cursive";
+     ctx.fillStyle="red";
+     ctx.textAlign="center";
+     ctx.fillText(c_i,645,240);
+     ctx.fillText("Sorry! Your Bad Luck!",285,300);
+     ctx.fillText("This " + bad_msg + " is doubtfull to be Honest !",985,300); 
+
+}
+
+
+function click_hint_card(e){
+
+  m.x=e.pageX-this.offsetLeft;
+  m.y=e.pageY-this.offsetTop;
+  
+
+
+  if(m.x>100 && m.y>50 && m.x<200 && m.y<130){
+     ctx.strokeStyle="red";
+     ctx.strokeRect(120,70,60,40);
+     update_bad_msg("Trader");
+
+  }
+  
+  else if(m.x>300 && m.y>50 && m.x<400 && m.y<130){
+
+      ctx.strokeStyle="red";
+     ctx.strokeRect(320,70,60,40);
+     update_bad_msg("Writer");    
+  }
+  else if(m.x>500 && m.y>50 && m.x<600 && m.y<130){
+      ctx.strokeStyle="red";
+     ctx.strokeRect(520,70,60,40);
+     update_bad_msg("Auto Driver");
+  }
+  else if(m.x>700 && m.y>50 && m.x<800 && m.y<130){
+       ctx.strokeStyle="red";
+     ctx.strokeRect(720,70,60,40);
+     update_bad_msg("Soldier");  
+  
+  }
+  else if(m.x>900 && m.y>50 && m.x<1000 && m.y<130){
+        ctx.strokeStyle="red";
+     ctx.strokeRect(920,70,60,40);
+     update_bad_msg("MufflerMan");
+  }
+  else if(m.x>1100 && m.y>50 && m.x<1200 && m.y<130){
+     ctx.strokeStyle="green"; c_i++;
+     ctx.strokeRect(1120,70,60,40);
+     //ctx.clearRect(450,260,800,80);
+       update_score(c_i,"Editor");
+     /*ctx.font="bold 63px Cursive";
+     ctx.fillStyle="lightblue";
+     ctx.textAlign="center";
+     ctx.fillText(c_i,650,230); */
+     
+  }
+  else if(m.x>100 && m.y>160 && m.x<200 && m.y<240){
+       ctx.strokeStyle="red";
+     ctx.strokeRect(120,180,60,40);
+     update_bad_msg("Businessman");
+
+  }
+  else if(m.x>300 && m.y>160 && m.x<400 && m.y<240){
+       ctx.strokeStyle="green"; c_i++;
+     ctx.strokeRect(320,180,60,40);
+      update_score(c_i,"Scientist");
+  }
+  else if(m.x>500 && m.y>160 && m.x<600 && m.y<240){
+        ctx.strokeStyle="red";
+     ctx.strokeRect(520,180,60,40);
+     update_bad_msg("Police");
+  }
+  
+  else if(m.x>700 && m.y>160 && m.x<800 && m.y<240){
+            ctx.strokeStyle="green"; c_i++;
+     ctx.strokeRect(720,180,60,40);
+      update_score(c_i,"Musician");
+    }
+  
+  else if(m.x>900 && m.y>160 && m.x<1000 && m.y<240){
+            ctx.strokeStyle="red";
+     ctx.strokeRect(920,180,60,40);
+     update_bad_msg("Engineer");
+    }
+  
+  else if(m.x>1100 && m.y>160 && m.x<1200 && m.y<240){
+           ctx.strokeStyle="red";
+     ctx.strokeRect(1120,180,60,40);
+     update_bad_msg("MufflerMan");
+  }
+  else if(m.x>100 && m.y>370 && m.x<200 && m.y<450){
+          ctx.strokeStyle="green"; c_i++;
+     ctx.strokeRect(120,390,60,40);
+      update_score(c_i,"Student");
+    }
+  
+  else if(m.x>300 && m.y>370 && m.x<400 && m.y<450){
+              ctx.strokeStyle="red";
+     ctx.strokeRect(320,390,60,40);
+     update_bad_msg("Politicion");
+    }
+  
+  else if(m.x>500 && m.y>370 && m.x<600 && m.y<450){
+           ctx.strokeStyle="red";
+     ctx.strokeRect(520,390,60,40);
+     update_bad_msg("Doctor");
+    }
+  
+  else if(m.x>700 && m.y>370 && m.x<800 && m.y<450){
+           ctx.strokeStyle="green"; c_i++;
+     ctx.strokeRect(720,390,60,40);
+      update_score(c_i,"Cobbler");
+    }
+  
+  else if(m.x>900 && m.y>370 && m.x<1000 && m.y<450){
+          ctx.strokeStyle="red";
+     ctx.strokeRect(920,390,60,40);
+     update_bad_msg("Advocate");
+    }
+  
+  else if(m.x>1100 && m.y>370 && m.x<1200 && m.y<450){
+         ctx.strokeStyle="green";  c_i++;
+     ctx.strokeRect(1120,390,60,40);
+      update_score(c_i,"Poet");
+    }
+  
+  else if(m.x>100 && m.y>480 && m.x<200 && m.y<560){
+        ctx.strokeStyle="red";
+     ctx.strokeRect(120,500,60,40);
+     update_bad_msg("Teacher");
+  }
+  else if(m.x>300 && m.y>480 && m.x<400 && m.y<560){
+          ctx.strokeStyle="red";
+     ctx.strokeRect(320,500,60,40);
+     update_bad_msg("MufflerMan");
+    }
+  
+  else if(m.x>500 && m.y>480 && m.x<600 && m.y<560){
+        ctx.strokeStyle="red";
+     ctx.strokeRect(520,500,60,40);
+     update_bad_msg("Industrialist");
+  }
+  else if(m.x>700 && m.y>480 && m.x<800 && m.y<560){
+      ctx.strokeStyle="green"; c_i++;
+     ctx.strokeRect(720,500,60,40);
+      update_score(c_i,"Social Worker");
+}
+  
+  else if(m.x>900 && m.y>480 && m.x<1000 && m.y<560){
+       ctx.strokeStyle="red";
+     ctx.strokeRect(920,500,60,40);
+     update_bad_msg("Reporter");
+   }
+  
+  else if(m.x>1100 && m.y>480 && m.x<1200 && m.y<560){
+       ctx.strokeStyle="red";
+     ctx.strokeRect(1120,500,60,40);
+     update_bad_msg("Actor");
+ }
+
+
+
+}
+
+var it_t=0;
+var score;
+var setTimer2=function(){
+    ctx.clearRect(w/2-10,500,30,100);
+    it_t++;
+    
+    ctx.fillStyle="Yellow";
+    ctx.fillText(it_t,w/2,540);
+
+    if(it_t>0){
+      clearInterval(setClock2);
+      ctx.clearRect(0,0,w,h);
+       score=it_t;
+      $("#canvas").off("click");
+   document.getElementById('over_msg').style.display="block";
+   document.getElementById('score_details').innerHTML="Your Score is "+ score;
+      
+    }
+
+    
+
+}
+
+var setClock2=setInterval(setTimer2,1000);
+
+
+$("#canvas").unbind("click").click(click_hint_card);
+
+
+
+
+</script>
